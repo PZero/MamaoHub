@@ -1,0 +1,39 @@
+(kicad_sch (version 20211123) (generator eeschema)
+
+  (paper "A4")
+
+  (title_block
+    (title "MaMaoHub - NMEA 0183 Hub")
+    (company "PZero Hubs")
+    (comment 1 "Raspberry Pi Zero 2 W Based")
+  )
+
+  (lib_symbols
+    (symbol "RPi_Zero_2W" (in_bom yes) (on_board yes)
+      (property "Reference" "U1" (at 0 0 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "Raspberry Pi Zero 2 W" (at 0 -2.54 0)
+        (effects (font (size 1.27 1.27)))
+      )
+    )
+    (symbol "Waveshare_4Ch_RS485" (in_bom yes) (on_board yes)
+      (property "Reference" "U2" (at 0 0 0)
+        (effects (font (size 1.27 1.27)))
+      )
+    )
+    (symbol "TTL_RS485_Module" (in_bom yes) (on_board yes)
+    )
+  )
+
+  (symbol (lib_id "RPi_Zero_2W") (at 100 100 0) (unit 1)
+    (in_bom yes) (on_board yes) (fields_autoplaced)
+    (uuid 00000000-0000-0000-0000-0000619a8601)
+  )
+
+  (wire (pts (xy 110 100) (xy 130 100))
+    (uuid 00000000-0000-0000-0000-0000619a8701)
+  )
+  
+  (comment (at 50 200 0) (effects (font (size 2 2))) (text "NOTE: UART TX (GPIO 14) connects to TTL-RS485 DI for Multiplex A+B output."))
+)
