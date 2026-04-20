@@ -7,11 +7,38 @@ L'hub funge da ponte tra la strumentazione tradizionale e le moderne applicazion
 
 ## Architettura del Sistema
 
-### Hardware
+### Diagramma di Connettività
+```mermaid
+graph TD
+    subgraph "Ingressi (RS485)"
+        In1[Input 1: NMEA A] --> WS[Waveshare 4Ch USB-RS485]
+        In2[Input 2: NMEA B] --> WS
+        In3[Input 3: NMEA C] --> WS
+    end
+
+    subgraph "Cervello (Raspberry Pi Zero 2 W)"
+        WS -- USB --> SK[Signal K Server]
+        UPS[UPS Geekworm X306] -- Power --> SK
+        SK -- "Multiplex (A+B)" --> SK_Out1[Software Routing]
+        SK -- "Bridge (C)" --> SK_Out2[Software Routing]
+    end
+
+    subgraph "Uscite"
+        SK_Out1 --> WS_Out[Waveshare Port 4: RS485 Out]
+        SK_Out2 -- UART --> TTL[Modulo TTL-RS485]
+        SK -- Wi-Fi --> Tab[Tablet/Phone: Navionics/OpenCPN]
+        SK -- Web --> Dash[Dashboard Web App]
+    end
+
+    TTL --> Ext1[Strumentazione Esterna C]
+    WS_Out --> Ext2[Strumentazione Esterna A+B]
+```
+
+### Elenco Componenti Hardware
 1.  **Cervello**: Raspberry Pi Zero 2 W.
 2.  **Alimentazione**: Geekworm X306 v1.3 UPS (con supporto allo shutdown controllato).
 3.  **Interfaccia I/O Primaria**: Waveshare 4-Channel RS485 to USB.
-4.  **Uscita Bridge Fisico**: Modulo TTL to RS485 (collegato ai pin UART del Raspberry Pi).
+4.  **Uscita Bridge Fisico**: Modulo TTL to RS485 collegato via UART (GPIO 14/15).
     *   **Input 1**: Segnale NMEA A
     *   **Input 2**: Segnale NMEA B
     *   **Input 3**: Segnale NMEA C (condiviso via Wi-Fi e ponte fisico)
