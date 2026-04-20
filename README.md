@@ -56,6 +56,7 @@ graph TD
     %% Output Wi-Fi e Web
     SK -- "Parsing Segnale Completo" --> Funzionalita
     WiFi --> Tablet[Tablet / Smartphone]
+    WebDash --> Tablet
 ```
 
 ### Elenco Componenti Hardware
