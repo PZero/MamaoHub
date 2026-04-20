@@ -75,29 +75,55 @@ graph TD
     *   **Web**: Dashboard integrata accessibile via browser per il monitoraggio.
 5.  **Porta 4**: Rimane libera per usi futuri.
 
-## Hardware Layout & Wiring
+## Guida Passo-Passo all'Installazione (Primo Setup)
 
-### Visualizzazione 3D Professionale
-![Rendering 3D MaMaoHub](file:///c:/Users/fnico/MaMaoHub/hardware/MaMaoHub_3D_Render.png)
+Segui questi passaggi per preparare la tua prima scheda SD e rendere operativo MaMaoHub.
 
-### Schema di Cablaggio Dettagliato (Pinout Morsetti)
-Ogni morsettiera è progettata per gestire il segnale differenziale RS485 e, dove necessario, il riferimento di massa.
+### Fase 1: Preparazione della Scheda SD
+1. **Scarica lo strumento**: Scarica e installa [Raspberry Pi Imager](https://www.raspberrypi.com/software/) sul tuo PC/Mac.
+2. **Scegli il Sistema Operativo**:
+   * Clicca su **CHOOSE OS**.
+   * Seleziona **Raspberry Pi OS (other)** -> **Raspberry Pi OS Lite (64-bit)**.
+3. **Configura le Impostazioni (Cruciale)**:
+   * Clicca sull'icona dell'ingranaggio (o premi `Ctrl+Shift+X`).
+   * **Hostname**: Imposta `mamaohub.local`.
+   * **SSH**: Seleziona "Enable SSH" e scegli "Use password authentication".
+   * **Set username and password**: Crea un utente (es. username: `pi`, password: `tua_password`).
+   * **Configure wireless LAN**: Inserisci il nome (SSID) e la password del Wi-Fi della tua barca o del tuo hotspot cellulare.
+   * **Set locale settings**: Imposta il fuso orario e il layout della tastiera su `it`.
+4. **Scrivi**: Inserisci la micro SD nel PC e clicca su **WRITE**.
 
-| Morsetto | Nome | Pin 1 (A+) | Pin 2 (B-) | Pin 3 (GND/Shield) | Descrizione |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **M1** | STAZ. VENTO | NMEA A+ | NMEA B- | Shield / GND | Ingresso primario vento |
-| **M2** | BUSSOLA | NMEA A+ | NMEA B- | Shield / GND | Ingresso primario rotta |
-| **M3** | NAV. OUT | RS485 A+ | RS485 B- | GND | Uscita Multiplex A+B (dal TTL) |
-| **M4** | NAV. IN | NMEA A+ | NMEA B- | Shield / GND | Rientro Segnale Completo |
+### Fase 2: Primo Avvio e Accesso
+1. Inserisci la micro SD nel Raspberry Pi Zero 2 W e alimentalo tramite l'UPS Geekworm.
+2. Attendi circa 2-3 minuti per il primo avvio.
+3. Apri un terminale sul tuo PC (PowerShell su Windows, Terminale su Mac) e digita:
+   ```bash
+   ssh pi@mamaohub.local
+   ```
+   *(Sostituisci `pi` con l'username che hai scelto. Se `.local` non funziona, cerca l'IP del Pi nel tuo router).*
 
-> [!IMPORTANT]
-> **Modulo TTL-RS485**: Il modulo è alimentato a 5V dal Raspberry Pi. Il pin TX (GPIO 14) è collegato al DI del modulo, mentre i pin DE/RE sono ponticellati su HIGH per abilitare la trasmissione fissa verso il Navigatore.
+### Fase 3: Installazione Automatizzata MaMaoHub
+Una volta entrato nel Raspberry Pi, copia e incolla questi comandi uno alla volta:
 
-> [!TIP]
-> I file sorgente del progetto hardware (formato KiCad) sono disponibili nella cartella `/hardware` per modifiche professionali e sbroglio della PCB.
+```bash
+# 1. Installa git (se non presente)
+sudo apt update && sudo apt install -y git
 
-## Strategia di Disaster Recovery
-Tutte le configurazioni (OS, driver, plugin, dashboard) sono gestite tramite repository Git. In caso di fallimento della scheda SD, il sistema può essere ripristinato in pochi minuti eseguendo uno script di setup automatizzato.
+# 2. Scarica il progetto
+git clone https://github.com/fnico/MaMaoHub.git
+
+# 3. Entra nella cartella ed esegui l'installazione
+cd MaMaoHub
+chmod +x scripts/install.sh
+sudo ./scripts/install.sh
+```
+
+### Fase 4: Verifica e Accesso ai Servizi
+Al termine dell'installazione e dopo il riavvio richiesto:
+* **Signal K Dashboard**: Apri il browser e vai su `http://mamaohub.local:3000`.
+* **Wi-Fi Failover**: Se porti il Pi in un luogo dove non c'è Wi-Fi, dopo 60 secondi vedrai apparire una rete chiamata **MaMaoHub-Hotspot**. Collegati con password `mamaohub123` e naviga su `http://192.168.4.1:3000`.
+
+---
 
 ## Funzionalità Chiave
 *   **Gestione Alimentazione**: Shutdown automatico in assenza di alimentazione esterna per proteggere il file system. Auto-boot al ritorno della corrente.
