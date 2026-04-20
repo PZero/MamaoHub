@@ -16,27 +16,28 @@ graph TD
         In3[Input 3: Segnale Completo] --> WS
     end
 
-    subgraph "Cervello (Raspberry Pi Zero 2 W)"
+    subgraph "Hub Centrale (Raspberry Pi Zero 2 W)"
         WS -- USB --> SK[Signal K Server]
         UPS[UPS Geekworm X306] -- Power --> SK
-        SK -- "Multiplex (A+B)" --> SK_Out1[Software Routing]
-        SK -- "Bridge (C)" --> SK_Out2[Software Routing]
+        SK -- "Multiplex (Vento+Bussola)" --> SK_Out1[Software Routing]
+        SK_Proc[Processo Dati Completi]
     end
 
-    subgraph "Dispositivi Esterni"
-        WS_Out[Waveshare Port 4: RS485 Out] --> Nav[Navigatore]
+    subgraph "Navigatore (Esterno)"
+        Nav[Processore Navigatore]
+    end
+
+    subgraph "Distribuzione e Loop-back"
+        SK_Out1 --> WS_Out[Waveshare Port 4: RS485 Out]
+        WS_Out --> Nav
         Nav -- "Segnale Completo" --> In3
-    end
-
-    subgraph "Distribuzione"
-        SK_Out1 --> WS_Out
+        In3 -- "Analisi NMEA" --> SK_Proc
         SK_Proc -- Wi-Fi --> Tab[Tablet/Phone: Navionics/OpenCPN]
         SK_Proc -- UART --> TTL[Modulo TTL-RS485]
         SK_Proc -- Web --> Dash[Dashboard Web App]
     end
 
-    TTL --> Ext1[Strumentazione Esterna C]
-    WS_Out --> Ext2[Strumentazione Esterna A+B]
+    TTL --> Ext1[Altra Strumentazione]
 ```
 
 ### Elenco Componenti Hardware
@@ -50,7 +51,6 @@ graph TD
     *   **Input 4**: Disponibile per espansioni future.
 5.  **Navigatore (Esterno)**: Riceve il mix Vento+Bussola e genera il segnale completo.
 
-### Flusso Dati
 ### Flusso Dati (Loop-back)
 *   **Multiplexing (Vento e Bussola)**: MaMaoHub raccoglie i dati dalla Stazione Vento e dalla Bussola, li multiplexa e li invia al **Navigatore** (Waveshare Port 4).
 *   **Generazione Segnale Completo**: Il Navigatore processa i dati e restituisce il **Segnale Completo** sull'ingresso 3.
