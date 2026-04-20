@@ -77,23 +77,24 @@ graph TD
 
 ## Hardware Layout & Wiring
 
-### Pianta del Layout (Top View)
-Il sistema è progettato per essere alloggiato in un case compatto con la seguente disposizione:
-- **Centro**: Stack composto da Raspberry Pi Zero 2 W (sopra) e UPS X306 (sotto), alimentato via USB-C (5V 3-5A).
-- **In Alto**: Hub Waveshare 4-Ch RS485 to USB per gli ingressi principali.
-- **In Basso**: Morsettiere a vite separate per ogni segnale esterno.
-- **Lato Destro**: Modulo TTL-RS485 per l'uscita verso il Navigatore.
+### Visualizzazione 3D Professionale
+![Rendering 3D MaMaoHub](file:///c:/Users/fnico/MaMaoHub/hardware/MaMaoHub_3D_Render.png)
 
-### Schema di Cablaggio (Morsetti)
-| Morsetto | Segnale | Descrizione | Collegamento Interno |
-| :--- | :--- | :--- | :--- |
-| **M1** | Stazione Vento | Ingresso NMEA 0183 | Waveshare Porta 1 |
-| **M2** | Bussola | Ingresso NMEA 0183 | Waveshare Porta 2 |
-| **M3** | Navigatore IN | Input A+B Multiplexato | Modulo TTL-RS485 (UART) |
-| **M4** | Navigatore OUT | Segnale Completo (C) | Waveshare Porta 3 |
+### Schema di Cablaggio Dettagliato (Pinout Morsetti)
+Ogni morsettiera è progettata per gestire il segnale differenziale RS485 e, dove necessario, il riferimento di massa.
+
+| Morsetto | Nome | Pin 1 (A+) | Pin 2 (B-) | Pin 3 (GND/Shield) | Descrizione |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **M1** | STAZ. VENTO | NMEA A+ | NMEA B- | Shield / GND | Ingresso primario vento |
+| **M2** | BUSSOLA | NMEA A+ | NMEA B- | Shield / GND | Ingresso primario rotta |
+| **M3** | NAV. OUT | RS485 A+ | RS485 B- | GND | Uscita Multiplex A+B (dal TTL) |
+| **M4** | NAV. IN | NMEA A+ | NMEA B- | Shield / GND | Rientro Segnale Completo |
+
+> [!IMPORTANT]
+> **Modulo TTL-RS485**: Il modulo è alimentato a 5V dal Raspberry Pi. Il pin TX (GPIO 14) è collegato al DI del modulo, mentre i pin DE/RE sono ponticellati su HIGH per abilitare la trasmissione fissa verso il Navigatore.
 
 > [!TIP]
-> I file sorgente del progetto hardware (formato KiCad) e il diagramma di cablaggio visivo sono disponibili nella cartella `/hardware`.
+> I file sorgente del progetto hardware (formato KiCad) sono disponibili nella cartella `/hardware` per modifiche professionali e sbroglio della PCB.
 
 ## Strategia di Disaster Recovery
 Tutte le configurazioni (OS, driver, plugin, dashboard) sono gestite tramite repository Git. In caso di fallimento della scheda SD, il sistema può essere ripristinato in pochi minuti eseguendo uno script di setup automatizzato.
