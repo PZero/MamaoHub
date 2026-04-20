@@ -11,8 +11,8 @@ L'hub funge da ponte tra la strumentazione tradizionale e le moderne applicazion
 ```mermaid
 graph TD
     subgraph "Ingressi (RS485)"
-        In1[Input 1: NMEA A] --> WS[Waveshare 4Ch USB-RS485]
-        In2[Input 2: NMEA B] --> WS
+        In1[Input 1: Stazione Vento] --> WS[Waveshare 4Ch USB-RS485]
+        In2[Input 2: Bussola] --> WS
         In3[Input 3: NMEA C] --> WS
     end
 
@@ -39,13 +39,13 @@ graph TD
 2.  **Alimentazione**: Geekworm X306 v1.3 UPS (con supporto allo shutdown controllato).
 3.  **Interfaccia I/O Primaria**: Waveshare 4-Channel RS485 to USB.
 4.  **Uscita Bridge Fisico**: Modulo TTL to RS485 collegato via UART (GPIO 14/15).
-    *   **Input 1**: Segnale NMEA A
-    *   **Input 2**: Segnale NMEA B
-    *   **Input 3**: Segnale NMEA C (condiviso via Wi-Fi e ponte fisico)
+    *   **Input 1**: Stazione Vento
+    *   **Input 2**: Bussola
+    *   **Input 3**: Segnale NMEA C (completo)
     *   **Input 4**: Disponibile per espansioni future.
 
 ### Flusso Dati
-*   **Multiplexing (Input 1 e 2)**: I segnali dagli ingressi 1 e 2 vengono combinati e inviati a un'uscita fisica RS485 (Waveshare Port 4). Questi dati contribuiscono alla dashboard ma non vengono trasmessi via Wi-Fi.
+*   **Multiplexing (Vento e Bussola)**: MaMaoHub raccoglie i dati dalla Stazione Vento e dalla Bussola, li multiplexa e li invia all'uscita fisica RS485 (Waveshare Port 4).
 *   **Distribuzione Wi-Fi (Input 3)**: Solo il segnale dall'Input 3 (il segnale "completo") viene convertito e trasmesso via Wi-Fi per la compatibilità con le app di navigazione (es. **Navionics, OpenCPN, Aqua Map, iNavX**).
 *   **Ponte Fisico (Input 3)**: Il segnale completo dell'Input 3 viene replicato in tempo reale verso il **modulo TTL-RS485** collegato ai pin UART del Raspberry Pi, per la condivisione con altra strumentazione.
     *   **Protocolli**: Supporto per **NMEA 0183** (frasi standard) e **Signal K** (moderno formato JSON via WebSockets).
