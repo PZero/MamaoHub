@@ -10,15 +10,17 @@ L'hub funge da ponte tra la strumentazione tradizionale e le moderne applicazion
 ### Hardware
 1.  **Cervello**: Raspberry Pi Zero 2 W.
 2.  **Alimentazione**: Geekworm X306 v1.3 UPS (con supporto allo shutdown controllato).
-3.  **Interfaccia I/O**: Waveshare 4-Channel RS485 to USB.
+3.  **Interfaccia I/O Primaria**: Waveshare 4-Channel RS485 to USB.
+4.  **Uscita Bridge Fisico**: Modulo TTL to RS485 (collegato ai pin UART del Raspberry Pi).
     *   **Input 1**: Segnale NMEA A
     *   **Input 2**: Segnale NMEA B
     *   **Input 3**: Segnale NMEA C (condiviso via Wi-Fi e ponte fisico)
     *   **Input 4**: Disponibile per espansioni future.
 
 ### Flusso Dati
-*   **Multiplexing**: I segnali dagli Input 1 e 2 vengono combinati e inviati a un'uscita fisica RS485. Questi ingressi servono a generare parte del set di dati ma restano limitati alla gestione fisica interna e non vengono inclusi nel flusso Wi-Fi.
-*   **Distribuzione Wi-Fi**: Solo il segnale dall'Input 3 (il segnale "completo") viene convertito e trasmesso via Wi-Fi per la compatibilità con le app di navigazione (es. **Navionics, OpenCPN, Aqua Map, iNavX**).
+*   **Multiplexing (Input 1 e 2)**: I segnali dagli ingressi 1 e 2 vengono combinati e inviati a un'uscita fisica RS485 (Waveshare Port 4). Questi dati contribuiscono alla dashboard ma non vengono trasmessi via Wi-Fi.
+*   **Distribuzione Wi-Fi (Input 3)**: Solo il segnale dall'Input 3 (il segnale "completo") viene convertito e trasmesso via Wi-Fi per la compatibilità con le app di navigazione (es. **Navionics, OpenCPN, Aqua Map, iNavX**).
+*   **Ponte Fisico (Input 3)**: Il segnale completo dell'Input 3 viene replicato in tempo reale verso il **modulo TTL-RS485** collegato ai pin UART del Raspberry Pi, per la condivisione con altra strumentazione.
     *   **Protocolli**: Supporto per **NMEA 0183** (frasi standard) e **Signal K** (moderno formato JSON via WebSockets).
     *   **Connettività**: 
         *   **TCP (Server Mode)**: Porta **10110** (standard industriale) per una connessione stabile e bidirezionale.
