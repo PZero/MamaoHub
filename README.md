@@ -13,7 +13,7 @@ graph TD
     subgraph "Ingressi (RS485)"
         In1[Input 1: Stazione Vento] --> WS[Waveshare 4Ch USB-RS485]
         In2[Input 2: Bussola] --> WS
-        In3[Input 3: NMEA C] --> WS
+        In3[Input 3: Segnale Completo] --> WS
     end
 
     subgraph "Cervello (Raspberry Pi Zero 2 W)"
@@ -23,11 +23,16 @@ graph TD
         SK -- "Bridge (C)" --> SK_Out2[Software Routing]
     end
 
-    subgraph "Uscite"
-        SK_Out1 --> WS_Out[Waveshare Port 4: RS485 Out]
-        SK_Out2 -- UART --> TTL[Modulo TTL-RS485]
-        SK -- Wi-Fi --> Tab[Tablet/Phone: Navionics/OpenCPN]
-        SK -- Web --> Dash[Dashboard Web App]
+    subgraph "Dispositivi Esterni"
+        WS_Out[Waveshare Port 4: RS485 Out] --> Nav[Navigatore]
+        Nav -- "Segnale Completo" --> In3
+    end
+
+    subgraph "Distribuzione"
+        SK_Out1 --> WS_Out
+        SK_Proc -- Wi-Fi --> Tab[Tablet/Phone: Navionics/OpenCPN]
+        SK_Proc -- UART --> TTL[Modulo TTL-RS485]
+        SK_Proc -- Web --> Dash[Dashboard Web App]
     end
 
     TTL --> Ext1[Strumentazione Esterna C]
@@ -41,13 +46,15 @@ graph TD
 4.  **Uscita Bridge Fisico**: Modulo TTL to RS485 collegato via UART (GPIO 14/15).
     *   **Input 1**: Stazione Vento
     *   **Input 2**: Bussola
-    *   **Input 3**: Segnale NMEA C (completo)
+    *   **Input 3**: Segnale Completo (dal Navigatore)
     *   **Input 4**: Disponibile per espansioni future.
+5.  **Navigatore (Esterno)**: Riceve il mix Vento+Bussola e genera il segnale completo.
 
 ### Flusso Dati
-*   **Multiplexing (Vento e Bussola)**: MaMaoHub raccoglie i dati dalla Stazione Vento e dalla Bussola, li multiplexa e li invia all'uscita fisica RS485 (Waveshare Port 4).
-*   **Distribuzione Wi-Fi (Input 3)**: Solo il segnale dall'Input 3 (il segnale "completo") viene convertito e trasmesso via Wi-Fi per la compatibilità con le app di navigazione (es. **Navionics, OpenCPN, Aqua Map, iNavX**).
-*   **Ponte Fisico (Input 3)**: Il segnale completo dell'Input 3 viene replicato in tempo reale verso il **modulo TTL-RS485** collegato ai pin UART del Raspberry Pi, per la condivisione con altra strumentazione.
+### Flusso Dati (Loop-back)
+*   **Multiplexing (Vento e Bussola)**: MaMaoHub raccoglie i dati dalla Stazione Vento e dalla Bussola, li multiplexa e li invia al **Navigatore** (Waveshare Port 4).
+*   **Generazione Segnale Completo**: Il Navigatore processa i dati e restituisce il **Segnale Completo** sull'ingresso 3.
+*   **Distribuzione Hub**: Il Segnale Completo viene distribuito via Wi-Fi, tramite modulo TTL-RS485 e sulla Dashboard.
     *   **Protocolli**: Supporto per **NMEA 0183** (frasi standard) e **Signal K** (moderno formato JSON via WebSockets).
     *   **Connettività**: 
         *   **TCP (Server Mode)**: Porta **10110** (standard industriale) per una connessione stabile e bidirezionale.
