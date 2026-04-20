@@ -19,7 +19,7 @@ graph TD
         Port1[Porta 1]
         Port2[Porta 2]
         Port3[Porta 3]
-        Port4[Porta 4]
+        Port4[Porta 4 - NON ALLOCATA]
     end
 
     subgraph RPi["3. Hub Centrale (Raspberry Pi Zero 2 W)"]
@@ -28,24 +28,27 @@ graph TD
         SK_Proc[Elaborazione Dati Completi]
     end
 
-    subgraph Nav["4. Navigatore (Esterno)"]
+    subgraph Bridge["4. Modulo TTL-RS485 (UART)"]
+        TTL[Uscita RS485]
+    end
+
+    subgraph Nav["5. Navigatore (Esterno)"]
         Nav_Device[Processore Navigatore]
     end
 
-    subgraph Out["5. Distribuzione (Uscite)"]
+    subgraph Out["6. Distribuzione Wi-Fi / Web"]
         WiFi[Wi-Fi: Navionics / OpenCPN]
-        UART_Out[Ponte UART: Modulo TTL-RS485]
         WebDash[Web Dashboard]
     end
 
-    %% Flusso Dati
+    %% Flusso Dati Ingresso
     Vento --> Port1
     Bussola --> Port2
     Port1 & Port2 -- USB --> SK
     
-    %% Loop-back verso Navigatore
-    SK -- "Multiplex A+B" --> Port4
-    Port4 -- RS485 --> Nav_Device
+    %% Multiplex A+B verso Navigatore
+    SK -- "Multiplex A+B" --> TTL
+    TTL -- RS485 --> Nav_Device
     
     %% Rientro Segnale Completo
     Nav_Device -- "Segnale Completo" --> Port3
@@ -54,7 +57,6 @@ graph TD
     %% Distribuzione Finale
     SK -- "Parsing Segnale Completo" --> SK_Proc
     SK_Proc --> WiFi
-    SK_Proc --> UART_Out
     SK_Proc --> WebDash
 ```
 
@@ -62,17 +64,17 @@ graph TD
 1.  **Cervello**: Raspberry Pi Zero 2 W.
 2.  **Alimentazione**: Geekworm X306 v1.3 UPS (con supporto allo shutdown controllato).
 3.  **Hub Seriale**: Waveshare 4-Channel RS485 to USB.
-4.  **Bridge Signal C**: Modulo TTL to RS485 collegato via UART (GPIO 14/15).
-5.  **Navigatore (Esterno)**: Device che riceve il mix Vento+Bussola e produce il Segnale Completo.
+4.  **Modulo RS485 Aggiuntivo**: Modulo TTL to RS485 collegato via UART (GPIO 14/15). Utilizzato per inviare il mix Vento+Bussola al Navigatore.
+5.  **Navigatore (Esterno)**: Device che chiude il loop (riceve A+B dal modulo TTL, produce il Segnale Completo per la Porta 3).
 
 ### Flusso Dati (Loop-back)
 1.  **Ingresso**: MaMaoHub riceve i dati da **Stazione Vento** e **Bussola** tramite le porte 1 e 2 del Waveshare.
-2.  **Multiplex**: Signal K combina i dati e li invia al **Navigatore** tramite la porta 4 del Waveshare.
+2.  **Multiplex**: Signal K combina i dati e li invia al **Navigatore** tramite il **modulo TTL-RS485** (UART).
 3.  **Elaborazione Esterna**: Il Navigatore riceve il mix, lo processa e restituisce il **Segnale Completo** alla porta 3 del Waveshare.
 4.  **Distribuzione**: MaMaoHub riceve il Segnale Completo, lo decodifica e lo invia a:
-    *   **Wi-Fi**: Per tablet e smartphone.
-    *   **UART**: Tramite il modulo TTL-RS485 per altra strumentazione fisica.
-    *   **Web**: Per la consultazione tramite dashboard integrata.
+    *   **Wi-Fi**: Per tablet e smartphone (Navionics, OpenCPN, ecc.).
+    *   **Web**: Per la consultazione tramite dashboard (Instrument Panel, Kip, ecc.).
+5.  **Porta 4**: Rimane libera per usi futuri.
 
 ## Strategia di Disaster Recovery
 Tutte le configurazioni (OS, driver, plugin, dashboard) sono gestite tramite repository Git. In caso di fallimento della scheda SD, il sistema può essere ripristinato in pochi minuti eseguendo uno script di setup automatizzato.
