@@ -1,14 +1,14 @@
 # 99-mamaohub.rules - Regole per persistent names porte Waveshare 4CH
-# Basato su CH344 in modalità CDC-ACM (idVendor=1a86, idProduct=55d5)
+# Basato su CH344 (idVendor=1a86, idProduct=55d5)
 
 # Porta 1: Stazione Vento
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d5", ATTRS{bInterfaceNumber}=="00", SYMLINK+="ttyUSB_VENTO", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ENV{ID_USB_INTERFACE_NUM}=="00", SYMLINK+="ttyUSB_VENTO", GROUP="dialout", MODE="0660"
 
 # Porta 2: Bussola
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d5", ATTRS{bInterfaceNumber}=="02", SYMLINK+="ttyUSB_BUSSOLA", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ENV{ID_USB_INTERFACE_NUM}=="02", SYMLINK+="ttyUSB_BUSSOLA", GROUP="dialout", MODE="0660"
 
 # Porta 3: Navigatore (Rientro Segnale Completo)
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d5", ATTRS{bInterfaceNumber}=="04", SYMLINK+="ttyUSB_NAV_IN", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ENV{ID_USB_INTERFACE_NUM}=="04", SYMLINK+="ttyUSB_NAV_IN", GROUP="dialout", MODE="0660"
 
 # Porta 4: Libera
-SUBSYSTEM=="tty", ATTRS{idVendor}=="1a86", ATTRS{idProduct}=="55d5", ATTRS{bInterfaceNumber}=="06", SYMLINK+="ttyUSB_FREE", GROUP="dialout", MODE="0660"
+SUBSYSTEM=="tty", ENV{ID_USB_INTERFACE_NUM}=="06", SYMLINK+="ttyUSB_FREE", GROUP="dialout", MODE="0660"
