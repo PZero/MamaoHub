@@ -1,5 +1,6 @@
 #!/bin/bash
 # setup-wifi.sh - Configurazione Multi-SSID e Hotspot Failover
+set -e
 
 echo ">>> Configurazione profili Wi-Fi..."
 

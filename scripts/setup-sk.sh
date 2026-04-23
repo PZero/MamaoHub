@@ -1,5 +1,6 @@
 #!/bin/bash
 # setup-sk.sh - Installazione di Signal K Server
+set -e
 
 echo ">>> Installazione di Signal K Server..."
 

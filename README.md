@@ -100,7 +100,7 @@ Segui questi passaggi per preparare la tua prima scheda SD e rendere operativo M
    ```bash
    ssh pi@mamaohub.local
    ```
-   *(Sostituisci `pi` con l'username che hai scelto. Se `.local` non funziona, cerca l'IP del Pi nel tuo router).*
+   *(Sostituisci `pi` con l'username che hai scelto. Se l'utente è `admin`, usa `ssh admin@mamaohub.local`).*
 
 ### Fase 3: Installazione Automatizzata MaMaoHub
 Una volta entrato nel Raspberry Pi, copia e incolla questi comandi uno alla volta:
@@ -109,11 +109,11 @@ Una volta entrato nel Raspberry Pi, copia e incolla questi comandi uno alla volt
 # 1. Installa git (se non presente)
 sudo apt update && sudo apt install -y git
 
-# 2. Scarica il progetto
-git clone https://github.com/fnico/MaMaoHub.git
+# 2. Scarica il progetto (usando il tuo token per l'autenticazione)
+git clone https://<YOUR_TOKEN>@github.com/PZero/MamaoHub.git
 
 # 3. Entra nella cartella ed esegui l'installazione
-cd MaMaoHub
+cd MamaoHub
 chmod +x scripts/install.sh
 sudo ./scripts/install.sh
 ```

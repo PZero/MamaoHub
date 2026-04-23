@@ -1,5 +1,6 @@
 #!/bin/bash
 # setup-node.sh - Installazione di Node.js LTS su Raspberry Pi OS
+set -e
 
 echo ">>> Installazione di Node.js (LTS)..."
 
