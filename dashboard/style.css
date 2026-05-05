@@ -248,3 +248,81 @@ svg {
     }
     .widget.nav-main { grid-column: span 1; }
 }
+
+/* Settings Panel Styling */
+.settings-panel {
+    position: fixed;
+    top: 5rem;
+    right: -320px;
+    width: 300px;
+    background: var(--bg-color);
+    border: 1px solid var(--surface-border);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    backdrop-filter: blur(20px);
+    box-shadow: -10px 0 30px rgba(0,0,0,0.5);
+    z-index: 1000;
+    transition: right 0.4s cubic-bezier(0.17, 0.67, 0.83, 0.67);
+}
+
+.settings-panel.open {
+    right: 1.5rem;
+}
+
+.settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.settings-header h3 {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+}
+
+#settings-close {
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.color-group {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-group label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+input[type="color"] {
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background: none;
+}
+
+.reset-btn {
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.reset-btn:hover {
+    background: var(--accent-orange);
+    color: white;
+}

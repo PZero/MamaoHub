@@ -10,25 +10,55 @@ document.addEventListener('DOMContentLoaded', () => {
         depth: document.getElementById('depth'),
         tws: document.getElementById('tws'),
         time: document.getElementById('time-display'),
-        themeToggle: document.getElementById('theme-toggle')
+        themeToggle: document.getElementById('theme-toggle'),
+        settingsToggle: document.getElementById('settings-toggle'),
+        settingsPanel: document.getElementById('settings-panel'),
+        settingsClose: document.getElementById('settings-close'),
+        resetBtn: document.getElementById('reset-colors'),
+        colorInputs: document.querySelectorAll('input[type="color"]')
     };
 
-    // Theme Logic
+    // Theme & Color Logic
     const initTheme = () => {
         const savedTheme = localStorage.getItem('theme') || 'dark';
         if (savedTheme === 'light') {
             document.documentElement.classList.add('light-mode');
             elements.themeToggle.textContent = '🌓 DARK MODE';
         }
+
+        // Load custom colors
+        const customColors = JSON.parse(localStorage.getItem('customColors') || '{}');
+        Object.entries(customColors).forEach(([varName, value]) => {
+            document.documentElement.style.setProperty(varName, value);
+            // Update input value
+            const input = document.querySelector(`input[data-var="${varName}"]`);
+            if (input) input.value = value;
+        });
     };
 
-    elements.themeToggle.addEventListener('click', () => {
-        const isLight = document.documentElement.classList.toggle('light-mode');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        elements.themeToggle.textContent = isLight ? '🌓 DARK MODE' : '🌓 LIGHT MODE';
+    // Toggle Settings
+    elements.settingsToggle.addEventListener('click', () => elements.settingsPanel.classList.add('open'));
+    elements.settingsClose.addEventListener('click', () => elements.settingsPanel.classList.remove('open'));
+
+    // Handle Color Changes
+    elements.colorInputs.forEach(input => {
+        input.addEventListener('input', (e) => {
+            const varName = e.target.getAttribute('data-var');
+            const value = e.target.value;
+            document.documentElement.style.setProperty(varName, value);
+            
+            // Save to localStorage
+            const customColors = JSON.parse(localStorage.getItem('customColors') || '{}');
+            customColors[varName] = value;
+            localStorage.setItem('customColors', JSON.stringify(customColors));
+        });
     });
 
-    initTheme();
+    // Reset Colors
+    elements.resetBtn.addEventListener('click', () => {
+        localStorage.removeItem('customColors');
+        location.reload(); // Quickest way to reset all CSS variables to default
+    });
 
     // State
     let state = {
