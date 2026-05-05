@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', () => {
         hdg: 179,
         sog: 6.2,
         depth: 10.8,
-        tws: 0.0
+        tws: 0.0,
+        btw: 185 // Bearing to Waypoint
     };
 
     // Simulator
@@ -78,16 +79,18 @@ document.addEventListener('DOMContentLoaded', () => {
         state.hdg += (Math.random() - 0.5) * 1;
         state.sog += (Math.random() - 0.5) * 0.05;
         state.depth += (Math.random() - 0.5) * 0.01;
+        state.btw += (Math.random() - 0.5) * 0.5; // Slight drift in waypoint bearing
 
         if (state.awa > 180) state.awa -= 360;
         if (state.awa < -180) state.awa += 360;
         state.hdg = (state.hdg + 360) % 360;
+        state.btw = (state.btw + 360) % 360;
 
         updateUI();
     }
 
     function updateUI() {
-        navDisplay.update(state.hdg, state.awa);
+        navDisplay.update(state.hdg, state.awa, state.sog, state.btw);
         sogGauge.update(state.sog);
 
         elements.depth.textContent = state.depth.toFixed(1);

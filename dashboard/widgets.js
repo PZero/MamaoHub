@@ -56,9 +56,17 @@ class NavDisplay {
                     <path d="M100 5 L112 28 L100 20 L88 28 Z" fill="var(--accent-orange)" stroke="black" stroke-width="0.3" />
                     <text x="100" y="20" text-anchor="middle" font-size="7" font-weight="900" fill="black" transform="rotate(180, 100, 20)">T</text>
                 </g>
+
+                <!-- Waypoint/Bearing Arc (Dynamic) -->
+                <path id="waypoint-arc" d="" fill="none" stroke-width="4" opacity="0.6" />
                 
-                <!-- Heading Dot -->
-                <circle cx="100" cy="15" r="3.5" fill="var(--accent-green)" stroke="black" stroke-width="0.5" />
+                <!-- Waypoint Dot (BTW) -->
+                <g id="waypoint-marker">
+                    <circle cx="100" cy="15" r="4.5" fill="var(--accent-green)" stroke="black" stroke-width="1" />
+                </g>
+
+                <!-- Top Heading Reference (Fixed) -->
+                <path d="M100 10 L104 2 L96 2 Z" fill="white" />
             </svg>
         `;
         this.compassRing = this.container.querySelector('#compass-ring');
@@ -105,7 +113,7 @@ class NavDisplay {
         }
     }
 
-    update(hdg, awa, sog) {
+    update(hdg, awa, sog, btw) {
         this.compassRing.style.transform = `rotate(${-hdg}deg)`;
         this.compassRing.style.transformOrigin = '100px 100px';
         this.windIndicator.style.transform = `rotate(${awa}deg)`;
@@ -113,6 +121,37 @@ class NavDisplay {
         this.laylineZones.style.transform = `rotate(${awa}deg)`;
         this.laylineZones.style.transformOrigin = '100px 100px';
         if (sog !== undefined) this.sogCenterVal.textContent = sog.toFixed(1);
+
+        // Waypoint Logic
+        if (btw !== undefined) {
+            let relativeBearing = (btw - hdg + 540) % 360 - 180; // Range -180 to 180
+            const marker = this.container.querySelector('#waypoint-marker');
+            const arc = this.container.querySelector('#waypoint-arc');
+            
+            // Move marker
+            marker.style.transform = `rotate(${relativeBearing}deg)`;
+            marker.style.transformOrigin = '100px 100px';
+
+            // Draw arc
+            if (Math.abs(relativeBearing) > 2) {
+                const radius = 85;
+                const startAngle = -90 * Math.PI / 180;
+                const endAngle = (relativeBearing - 90) * Math.PI / 180;
+                
+                const x1 = 100 + radius * Math.cos(startAngle);
+                const y1 = 100 + radius * Math.sin(startAngle);
+                const x2 = 100 + radius * Math.cos(endAngle);
+                const y2 = 100 + radius * Math.sin(endAngle);
+                
+                const largeArc = Math.abs(relativeBearing) > 180 ? 1 : 0;
+                const sweep = relativeBearing > 0 ? 1 : 0;
+                
+                arc.setAttribute('d', `M ${x1} ${y1} A ${radius} ${radius} 0 ${largeArc} ${sweep} ${x2} ${y2}`);
+                arc.setAttribute('stroke', relativeBearing > 0 ? '#44ff44' : '#ff4444');
+            } else {
+                arc.setAttribute('d', '');
+            }
+        }
     }
 }
 
