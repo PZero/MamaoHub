@@ -25,6 +25,7 @@
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
     --nav-display-offset: 0px;
+    --nav-display-scale: 1;
 }
 
 :root.light-mode {
@@ -204,7 +205,7 @@ header {
     justify-content: center; 
     align-items: center; 
     margin-top: -1.5rem; 
-    transform: translateY(var(--nav-display-offset));
+    transform: translateY(var(--nav-display-offset)) scale(var(--nav-display-scale));
     transition: transform 0.2s ease-out;
 }
 .nav-bottom-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }

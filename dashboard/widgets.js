@@ -7,68 +7,66 @@ class NavDisplay {
     init() {
         this.container.innerHTML = `
             <svg viewBox="0 0 200 200" style="width: 100%; height: 100%;">
-                <g transform="translate(10, 10) scale(0.9)">
-                    <!-- Background Ring -->
-                    <circle cx="100" cy="100" r="95" fill="none" stroke="var(--surface-border)" stroke-width="1" />
+                <!-- Background Ring -->
+                <circle cx="100" cy="100" r="95" fill="none" stroke="var(--surface-border)" stroke-width="1" />
+                
+                <!-- Rotating Compass Ring -->
+                <g id="compass-ring" style="transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1)">
+                    <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="15" />
                     
-                    <!-- Rotating Compass Ring -->
-                    <g id="compass-ring" style="transition: transform 0.8s cubic-bezier(0.2, 0, 0.2, 1)">
-                        <circle cx="100" cy="100" r="85" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="15" />
-                        
-                        <!-- Static sectors relative to N (Red on left, Green on right) -->
-                        <path d="M 100 15 A 85 85 0 0 0 40 40" fill="none" stroke="var(--accent-red, #ff4444)" stroke-width="8" opacity="0.6" />
-                        <path d="M 160 40 A 85 85 0 0 0 100 15" fill="none" stroke="var(--accent-green, #44ff44)" stroke-width="8" opacity="0.6" />
-                        
-                        <!-- Cardinal Points -->
-                        <text x="100" y="28" text-anchor="middle" fill="var(--accent-cyan)" font-weight="900" font-size="16">N</text>
-                        <text x="175" y="106" text-anchor="middle" fill="var(--text-main)" font-size="12">E</text>
-                        <text x="100" y="185" text-anchor="middle" fill="var(--text-main)" font-size="12">S</text>
-                        <text x="25" y="106" text-anchor="middle" fill="var(--text-main)" font-size="12">W</text>
-                        <g id="degree-marks"></g>
-                    </g>
-
-                    <!-- Layline Zones (Rotating with wind) -->
-                    <g id="layline-zones" style="transition: transform 1s ease-out">
-                        <!-- Red Layline Sector (Port Tack) -->
-                        <path d="M 100 100 L 70 45 A 70 70 0 0 1 100 30 Z" fill="rgba(255, 68, 68, 0.2)" />
-                        <!-- Green Layline Sector (Starboard Tack) -->
-                        <path d="M 100 100 L 100 30 A 70 70 0 0 1 130 45 Z" fill="rgba(68, 255, 68, 0.2)" />
-                        <!-- Lines -->
-                        <line x1="100" y1="100" x2="70" y2="45" stroke="#ff4444" stroke-width="1" stroke-dasharray="3,3" />
-                        <line x1="100" y1="100" x2="130" y2="45" stroke="#44ff44" stroke-width="1" stroke-dasharray="3,3" />
-                    </g>
-
-                    <!-- Fixed Boat (Sharp Racing Style) -->
-                    <g id="boat-shape">
-                        <path d="M100 35 C115 65 120 115 120 140 L80 140 C80 115 85 65 100 35" fill="rgba(0, 242, 255, 0.1)" stroke="var(--accent-cyan)" stroke-width="1.5" />
-                        <line x1="100" y1="35" x2="100" y2="140" stroke="var(--accent-cyan)" stroke-width="0.5" stroke-dasharray="4,4" />
-                    </g>
-
-                    <!-- SOG Vector Arrow (Center) -->
-                    <g id="sog-vector">
-                        <line x1="100" y1="100" x2="100" y2="75" stroke="var(--accent-blue)" stroke-width="3" stroke-linecap="round" />
-                        <path d="M94 82 L100 70 L106 82 Z" fill="var(--accent-blue)" />
-                        <text x="100" y="108" id="sog-center-val" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="var(--font-mono)">5.0</text>
-                    </g>
-
-                    <!-- Wind Indicator -->
-                    <g id="wind-indicator" style="transition: transform 1s ease-out">
-                        <!-- Double Arrow with "T" -->
-                        <path d="M100 5 L112 28 L100 20 L88 28 Z" fill="var(--accent-orange)" stroke="black" stroke-width="0.3" />
-                        <text x="100" y="20" text-anchor="middle" font-size="7" font-weight="900" fill="black" transform="rotate(180, 100, 20)">T</text>
-                    </g>
-
-                    <!-- Waypoint/Bearing Arc (Dynamic) -->
-                    <path id="waypoint-arc" d="" fill="none" stroke-width="4" opacity="0.6" />
+                    <!-- Static sectors relative to N (Red on left, Green on right) -->
+                    <path d="M 100 15 A 85 85 0 0 0 40 40" fill="none" stroke="var(--accent-red, #ff4444)" stroke-width="8" opacity="0.6" />
+                    <path d="M 160 40 A 85 85 0 0 0 100 15" fill="none" stroke="var(--accent-green, #44ff44)" stroke-width="8" opacity="0.6" />
                     
-                    <!-- Waypoint Dot (BTW) -->
-                    <g id="waypoint-marker">
-                        <circle cx="100" cy="15" r="4.5" fill="var(--accent-green)" stroke="black" stroke-width="1" />
-                    </g>
-
-                    <!-- Top Heading Reference (Fixed) -->
-                    <path d="M100 10 L104 2 L96 2 Z" fill="white" />
+                    <!-- Cardinal Points -->
+                    <text x="100" y="28" text-anchor="middle" fill="var(--accent-cyan)" font-weight="900" font-size="16">N</text>
+                    <text x="175" y="106" text-anchor="middle" fill="var(--text-main)" font-size="12">E</text>
+                    <text x="100" y="185" text-anchor="middle" fill="var(--text-main)" font-size="12">S</text>
+                    <text x="25" y="106" text-anchor="middle" fill="var(--text-main)" font-size="12">W</text>
+                    <g id="degree-marks"></g>
                 </g>
+
+                <!-- Layline Zones (Rotating with wind) -->
+                <g id="layline-zones" style="transition: transform 1s ease-out">
+                    <!-- Red Layline Sector (Port Tack) -->
+                    <path d="M 100 100 L 70 45 A 70 70 0 0 1 100 30 Z" fill="rgba(255, 68, 68, 0.2)" />
+                    <!-- Green Layline Sector (Starboard Tack) -->
+                    <path d="M 100 100 L 100 30 A 70 70 0 0 1 130 45 Z" fill="rgba(68, 255, 68, 0.2)" />
+                    <!-- Lines -->
+                    <line x1="100" y1="100" x2="70" y2="45" stroke="#ff4444" stroke-width="1" stroke-dasharray="3,3" />
+                    <line x1="100" y1="100" x2="130" y2="45" stroke="#44ff44" stroke-width="1" stroke-dasharray="3,3" />
+                </g>
+
+                <!-- Fixed Boat (Sharp Racing Style) -->
+                <g id="boat-shape">
+                    <path d="M100 35 C115 65 120 115 120 140 L80 140 C80 115 85 65 100 35" fill="rgba(0, 242, 255, 0.1)" stroke="var(--accent-cyan)" stroke-width="1.5" />
+                    <line x1="100" y1="35" x2="100" y2="140" stroke="var(--accent-cyan)" stroke-width="0.5" stroke-dasharray="4,4" />
+                </g>
+
+                <!-- SOG Vector Arrow (Center) -->
+                <g id="sog-vector">
+                    <line x1="100" y1="100" x2="100" y2="75" stroke="var(--accent-blue)" stroke-width="3" stroke-linecap="round" />
+                    <path d="M94 82 L100 70 L106 82 Z" fill="var(--accent-blue)" />
+                    <text x="100" y="108" id="sog-center-val" text-anchor="middle" font-size="10" font-weight="bold" fill="white" font-family="var(--font-mono)">5.0</text>
+                </g>
+
+                <!-- Wind Indicator -->
+                <g id="wind-indicator" style="transition: transform 1s ease-out">
+                    <!-- Double Arrow with "T" -->
+                    <path d="M100 5 L112 28 L100 20 L88 28 Z" fill="var(--accent-orange)" stroke="black" stroke-width="0.3" />
+                    <text x="100" y="20" text-anchor="middle" font-size="7" font-weight="900" fill="black" transform="rotate(180, 100, 20)">T</text>
+                </g>
+
+                <!-- Waypoint/Bearing Arc (Dynamic) -->
+                <path id="waypoint-arc" d="" fill="none" stroke-width="4" opacity="0.6" />
+                
+                <!-- Waypoint Dot (BTW) -->
+                <g id="waypoint-marker">
+                    <circle cx="100" cy="15" r="4.5" fill="var(--accent-green)" stroke="black" stroke-width="1" />
+                </g>
+
+                <!-- Top Heading Reference (Fixed) -->
+                <path d="M100 10 L104 2 L96 2 Z" fill="white" />
             </svg>
         `;
         this.compassRing = this.container.querySelector('#compass-ring');
