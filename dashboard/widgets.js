@@ -31,6 +31,10 @@ class NavDisplay {
 
                 <!-- Wind Indicator (Apparent Wind Angle) -->
                 <g id="wind-indicator" style="transition: transform 1s ease-out">
+                    <!-- Laylines / No-go zone lines (approx 80 deg total) -->
+                    <line x1="100" y1="100" x2="100" y2="25" stroke="rgba(255, 69, 0, 0.3)" stroke-width="1" stroke-dasharray="4,4" style="transform: rotate(40deg); transform-origin: 100px 100px;" />
+                    <line x1="100" y1="100" x2="100" y2="25" stroke="rgba(255, 69, 0, 0.3)" stroke-width="1" stroke-dasharray="4,4" style="transform: rotate(-40deg); transform-origin: 100px 100px;" />
+                    
                     <!-- Triangle Arrow -->
                     <path d="M100 12 L112 32 L88 32 Z" fill="var(--accent-orange)" />
                     <!-- Wind Tail -->
