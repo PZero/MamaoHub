@@ -12,12 +12,14 @@
 <body>
     <header>
         <div class="logo">MAMAO<span style="color: var(--text-main)">DASH</span></div>
-        <div class="status-bar">
-            <div class="status-item">
-                <div class="dot"></div>
-                <span id="mode-label">SIMULATORE ATTIVO</span>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+            <button id="theme-toggle" class="theme-toggle">🌓 LIGHT MODE</button>
+            <div class="status-bar">
+                <div class="status-item">
+                    <div class="dot"></div>
+                    <span id="mode-label">SIMULATORE</span>
+                </div>
             </div>
-            <div class="status-item" id="time-display">--:--:--</div>
         </div>
     </header>
 
@@ -61,9 +63,9 @@
         <!-- Tilt / Pitch -->
         <section class="widget">
             <div class="widget-label">Posizione</div>
-            <div class="widget-value" id="position" style="font-size: 1.2rem; text-align: center;">
-                44° 24' 12" N<br>
-                008° 55' 34" E
+            <div class="widget-value" id="position" style="font-size: clamp(1rem, 4vw, 1.3rem); flex-direction: column; align-items: center;">
+                <div>44° 24' 12" N</div>
+                <div>008° 55' 34" E</div>
             </div>
         </section>
     </main>

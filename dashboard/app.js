@@ -9,8 +9,26 @@ document.addEventListener('DOMContentLoaded', () => {
         sog: document.getElementById('sog'),
         depth: document.getElementById('depth'),
         tws: document.getElementById('tws'),
-        time: document.getElementById('time-display')
+        time: document.getElementById('time-display'),
+        themeToggle: document.getElementById('theme-toggle')
     };
+
+    // Theme Logic
+    const initTheme = () => {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.documentElement.classList.add('light-mode');
+            elements.themeToggle.textContent = '🌓 DARK MODE';
+        }
+    };
+
+    elements.themeToggle.addEventListener('click', () => {
+        const isLight = document.documentElement.classList.toggle('light-mode');
+        localStorage.setItem('theme', isLight ? 'light' : 'dark');
+        elements.themeToggle.textContent = isLight ? '🌓 DARK MODE' : '🌓 LIGHT MODE';
+    });
+
+    initTheme();
 
     // State
     let state = {
