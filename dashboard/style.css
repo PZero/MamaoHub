@@ -11,9 +11,6 @@
     --text-main: #e0e6ed;
     --text-dim: #94a3b8;
     /* Widget Specific Colors */
-    --color-depth: #00aaff;
-    --color-stw: #e0e6ed;
-    --color-pos: #e0e6ed;
     --color-labels: #00f2ff; /* Ciano acceso di default */
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
@@ -83,62 +80,42 @@ header {
     background: var(--surface-border); /* Grid lines */
 }
 
-.side-col.left {
+.side-col {
     display: flex;
     flex-direction: column;
 }
 
-.side-col.left .widget {
+.widget {
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start; /* Forzato in alto */
-    align-items: flex-start;
-    padding: 1.5rem 2rem;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1rem;
     border-bottom: 1px solid var(--surface-border);
     position: relative;
-    overflow: hidden; /* Evita clipping esterno */
+    overflow: hidden;
 }
 
 .widget-label {
-    font-size: 1.1rem;
-    font-weight: 900;
+    font-size: 0.8rem;
+    font-weight: 800;
     text-transform: uppercase;
     color: var(--color-labels);
-    letter-spacing: 3px;
-    margin-bottom: 1rem;
-    opacity: 1 !important;
-    visibility: visible !important;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 2px;
+    margin-bottom: 0.2rem;
+    opacity: 0.8;
 }
 
-/* Left Column Specifics */
-.depth-widget { color: var(--color-depth); }
-.stw-widget { color: var(--color-stw); }
-.pos-widget { color: var(--color-pos); }
-
-.value-row.large { 
-    font-size: clamp(3rem, 12vh, 6rem); 
+.value-row { 
+    font-size: clamp(2rem, 5vh, 3.5rem); 
     font-family: var(--font-mono); 
     font-weight: 700; 
     white-space: nowrap; 
     line-height: 1; 
-    margin-top: auto;
-    margin-bottom: auto;
+    color: var(--text-main);
 }
-.value-row.large .unit { font-size: 1.5rem; margin-left: 5px; color: var(--text-dim); }
-
-.stw-widget .min-max { 
-    position: absolute; 
-    bottom: 1rem; 
-    font-size: 0.7rem; 
-    color: var(--text-dim); 
-}
-.pos-widget .coords { 
-    font-family: var(--font-mono); 
-    font-size: clamp(1.2rem, 5vh, 2.2rem); 
-    line-height: 1.1; 
-}
+.value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--text-dim); font-weight: 400; }
 
 /* Center Column */
 .center-col { padding: 1rem; position: relative; }
@@ -175,9 +152,9 @@ header {
 .nav-bottom-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 
 /* Right Column */
-.sog-gauge-widget { flex: 1; }
-.graph-widget { flex: 1; }
-.graph-placeholder { flex: 1; background: rgba(255, 157, 0, 0.05); border: 1px solid rgba(255, 157, 0, 0.1); border-radius: 4px; margin-top: 0.5rem; }
+.side-col.right .widget {
+    border-left: 1px solid var(--surface-border);
+}
 
 /* Settings Panel */
 .settings-panel {

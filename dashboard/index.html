@@ -27,24 +27,40 @@
     <main class="dashboard-layout">
         <!-- Colonna Sinistra -->
         <div class="side-col left">
-            <section class="widget depth-widget">
-                <div class="widget-label">Depth</div>
-                <div class="value-row large">
-                    <span id="depth">10.8</span><span class="unit">m</span>
+            <section class="widget">
+                <div class="widget-label">COG</div>
+                <div class="value-row">
+                    <span id="cog">182</span><span class="unit">°</span>
                 </div>
             </section>
-            <section class="widget stw-widget">
-                <div class="widget-label">STW</div>
-                <div class="value-row large">
-                    <span id="sog">6.1</span><span class="unit">knots</span>
+            <section class="widget">
+                <div class="widget-label">SOG</div>
+                <div class="value-row">
+                    <span id="sog">6.2</span><span class="unit">kn</span>
                 </div>
-                <div class="min-max">Min: 5.2 Max: 6.1</div>
             </section>
-            <section class="widget pos-widget">
-                <div class="widget-label">Position</div>
-                <div class="coords" id="position">
-                    44° 24.89' N<br>
-                    8° 54.77' E
+            <section class="widget">
+                <div class="widget-label">AWS</div>
+                <div class="value-row">
+                    <span id="aws">12.4</span><span class="unit">kn</span>
+                </div>
+            </section>
+            <section class="widget">
+                <div class="widget-label">AWA</div>
+                <div class="value-row">
+                    <span id="awa">32</span><span class="unit">°</span>
+                </div>
+            </section>
+            <section class="widget">
+                <div class="widget-label">TWS</div>
+                <div class="value-row">
+                    <span id="tws-side">10.1</span><span class="unit">kn</span>
+                </div>
+            </section>
+            <section class="widget">
+                <div class="widget-label">TWA</div>
+                <div class="value-row">
+                    <span id="twa">45</span><span class="unit">°</span>
                 </div>
             </section>
         </div>
@@ -81,15 +97,28 @@
 
         <!-- Colonna Destra -->
         <div class="side-col right">
-            <section class="widget sog-gauge-widget">
-                <div class="gauge-container" id="sog-gauge-box">
-                    <!-- Analog SOG Gauge -->
+            <section class="widget">
+                <div class="widget-label">CTS</div>
+                <div class="value-row">
+                    <span id="cts">185</span><span class="unit">°</span>
                 </div>
             </section>
-            <section class="widget graph-widget">
-                <div class="widget-label orange" id="graph-label">12.4 knots</div>
-                <div class="graph-placeholder">
-                    <!-- Graph Canvas or SVG -->
+            <section class="widget">
+                <div class="widget-label">DTG</div>
+                <div class="value-row">
+                    <span id="dtg">4.2</span><span class="unit">nm</span>
+                </div>
+            </section>
+            <section class="widget">
+                <div class="widget-label">WMG</div>
+                <div class="value-row">
+                    <span id="wmg">5.8</span><span class="unit">kn</span>
+                </div>
+            </section>
+            <section class="widget">
+                <div class="widget-label">ETA</div>
+                <div class="value-row">
+                    <span id="eta">14:25</span>
                 </div>
             </section>
         </div>
@@ -119,16 +148,12 @@
             <div class="settings-section">
                 <h4>Colonna Sinistra</h4>
                 <div class="color-group">
-                    <label>Profondità</label>
-                    <input type="color" data-var="--color-depth">
+                    <label>Navigazione (COG/SOG)</label>
+                    <input type="color" data-var="--color-labels">
                 </div>
                 <div class="color-group">
-                    <label>STW</label>
-                    <input type="color" data-var="--color-stw">
-                </div>
-                <div class="color-group">
-                    <label>Posizione</label>
-                    <input type="color" data-var="--color-pos">
+                    <label>Vento (AWS/AWA/TWS/TWA)</label>
+                    <input type="color" data-var="--accent-orange">
                 </div>
             </div>
 
