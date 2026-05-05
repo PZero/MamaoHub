@@ -211,17 +211,26 @@ svg {
 .data-box .label {
     font-size: 0.65rem;
     color: var(--text-dim);
+    margin-bottom: 2px;
 }
 
-.data-box span:not(.label) {
+.value-row {
+    display: flex;
+    align-items: baseline;
+    gap: 2px;
+    white-space: nowrap;
+}
+
+.value-row span:not(.unit) {
     font-family: var(--font-mono);
     font-size: 1.5rem;
     font-weight: 500;
+    color: var(--text-main);
 }
 
-.data-box .unit {
-    font-size: 0.8rem;
-    margin-left: 2px;
+.value-row .unit, .value-row {
+    font-size: 0.9rem;
+    color: var(--text-dim);
 }
 
 @media (max-width: 900px) {
