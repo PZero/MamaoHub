@@ -14,6 +14,7 @@
     --color-depth: #00aaff;
     --color-stw: #e0e6ed;
     --color-pos: #e0e6ed;
+    --color-labels: #94a3b8;
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
@@ -98,13 +99,15 @@ header {
 }
 
 .widget-label {
-    font-size: 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 700;
     text-transform: uppercase;
-    color: var(--text-dim);
-    margin-bottom: 0.5rem;
+    color: var(--color-labels);
     position: absolute;
     top: 1rem;
-    width: 100%;
+    left: 1rem;
+    letter-spacing: 1.5px;
+    z-index: 10;
 }
 
 /* Left Column Specifics */
@@ -175,6 +178,54 @@ header {
     transition: right 0.4s ease;
 }
 .settings-panel.open { right: 1.5rem; }
+
+/* Settings Panel Section Styling */
+.settings-section {
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--surface-border);
+    padding-bottom: 1rem;
+}
+
+.settings-section h4 {
+    font-size: 0.75rem;
+    color: var(--accent-cyan);
+    margin-bottom: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.color-group {
+    margin-bottom: 0.6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.color-group label {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+input[type="color"] {
+    border: none;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    background: none;
+}
+
+.reset-btn {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 0.75rem;
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    border-radius: 0.5rem;
+    cursor: pointer;
+    font-size: 0.7rem;
+    font-weight: bold;
+}
 
 @media (max-width: 1000px) {
     .dashboard-layout { grid-template-columns: 1fr; grid-template-rows: auto; overflow-y: auto; }

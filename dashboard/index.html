@@ -92,38 +92,53 @@
     <!-- Settings Panel -->
     <div id="settings-panel" class="settings-panel">
         <div class="settings-header">
-            <h3>PERSONALIZZA COLORI</h3>
+            <h3>SETUP DASHBOARD</h3>
             <button id="settings-close">×</button>
         </div>
         <div class="settings-content">
-            <div class="color-group">
-                <label>Sfondo</label>
-                <input type="color" data-var="--bg-color" id="color-bg">
+            <!-- Sezione Generale -->
+            <div class="settings-section">
+                <h4>Generale</h4>
+                <div class="color-group">
+                    <label>Sfondo</label>
+                    <input type="color" data-var="--bg-color">
+                </div>
+                <div class="color-group">
+                    <label>Colore Etichette</label>
+                    <input type="color" data-var="--color-labels">
+                </div>
             </div>
-            <div class="color-group">
-                <label>Accento Ciano</label>
-                <input type="color" data-var="--accent-cyan" id="color-cyan">
+
+            <!-- Sezione Colonna Sinistra -->
+            <div class="settings-section">
+                <h4>Colonna Sinistra</h4>
+                <div class="color-group">
+                    <label>Profondità</label>
+                    <input type="color" data-var="--color-depth">
+                </div>
+                <div class="color-group">
+                    <label>STW</label>
+                    <input type="color" data-var="--color-stw">
+                </div>
+                <div class="color-group">
+                    <label>Posizione</label>
+                    <input type="color" data-var="--color-pos">
+                </div>
             </div>
-            <div class="color-group">
-                <label>Accento Arancio</label>
-                <input type="color" data-var="--accent-orange" id="color-orange">
+
+            <!-- Sezione Accenti -->
+            <div class="settings-section">
+                <h4>Accenti & UI</h4>
+                <div class="color-group">
+                    <label>Ciano (Nav)</label>
+                    <input type="color" data-var="--accent-cyan">
+                </div>
+                <div class="color-group">
+                    <label>Arancio (Vento)</label>
+                    <input type="color" data-var="--accent-orange">
+                </div>
             </div>
-            <div class="color-group">
-                <label>Testo Principale</label>
-                <input type="color" data-var="--text-main" id="color-text">
-            </div>
-            <div class="color-group">
-                <label>Colore Profondità</label>
-                <input type="color" data-var="--color-depth" id="color-depth-input">
-            </div>
-            <div class="color-group">
-                <label>Colore STW</label>
-                <input type="color" data-var="--color-stw" id="color-stw-input">
-            </div>
-            <div class="color-group">
-                <label>Colore Posizione</label>
-                <input type="color" data-var="--color-pos" id="color-pos-input">
-            </div>
+
             <button id="reset-colors" class="reset-btn">RIPRISTINA DEFAULT</button>
         </div>
     </div>
