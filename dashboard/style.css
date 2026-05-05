@@ -10,6 +10,10 @@
     --accent-blue: #00aaff;
     --text-main: #e0e6ed;
     --text-dim: #94a3b8;
+    /* Widget Specific Colors */
+    --color-depth: #00aaff;
+    --color-stw: #e0e6ed;
+    --color-pos: #e0e6ed;
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
@@ -78,18 +82,19 @@ header {
     background: var(--surface-border); /* Grid lines */
 }
 
-.side-col, .center-col {
-    background: var(--bg-color);
+.side-col.left {
     display: flex;
     flex-direction: column;
 }
 
-.widget {
-    padding: 1rem;
-    border-bottom: 1px solid var(--surface-border);
+.side-col.left .widget {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    position: relative;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-bottom: 1px solid var(--surface-border);
 }
 
 .widget-label {
@@ -97,15 +102,36 @@ header {
     text-transform: uppercase;
     color: var(--text-dim);
     margin-bottom: 0.5rem;
+    position: absolute;
+    top: 1rem;
+    width: 100%;
 }
 
-/* Left Column */
-.depth-widget .blue { color: var(--accent-blue); }
-.value-row.large { font-size: clamp(3rem, 10vh, 5rem); font-family: var(--font-mono); font-weight: 700; white-space: nowrap; line-height: 1; }
+/* Left Column Specifics */
+.depth-widget { color: var(--color-depth); }
+.stw-widget { color: var(--color-stw); }
+.pos-widget { color: var(--color-pos); }
+
+.value-row.large { 
+    font-size: clamp(4rem, 15vh, 7rem); 
+    font-family: var(--font-mono); 
+    font-weight: 700; 
+    white-space: nowrap; 
+    line-height: 0.8; 
+}
 .value-row.large .unit { font-size: 1.5rem; margin-left: 5px; color: var(--text-dim); }
 
-.stw-widget .min-max { font-size: 0.7rem; color: var(--text-dim); margin-top: 0.5rem; }
-.pos-widget .coords { font-family: var(--font-mono); font-size: 1.5rem; line-height: 1.2; }
+.stw-widget .min-max { 
+    position: absolute; 
+    bottom: 1rem; 
+    font-size: 0.7rem; 
+    color: var(--text-dim); 
+}
+.pos-widget .coords { 
+    font-family: var(--font-mono); 
+    font-size: clamp(1.2rem, 5vh, 2.2rem); 
+    line-height: 1.1; 
+}
 
 /* Center Column */
 .center-col { padding: 1rem; position: relative; }
