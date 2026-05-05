@@ -14,7 +14,7 @@
     --color-depth: #00aaff;
     --color-stw: #e0e6ed;
     --color-pos: #e0e6ed;
-    --color-labels: #94a3b8;
+    --color-labels: #00f2ff; /* Ciano acceso di default */
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
@@ -93,21 +93,20 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
-    text-align: center;
+    align-items: flex-start; /* Allineamento a sinistra per le label */
+    padding-left: 2rem;
     border-bottom: 1px solid var(--surface-border);
+    position: relative;
 }
 
 .widget-label {
-    font-size: 0.85rem;
-    font-weight: 700;
+    font-size: 1rem;
+    font-weight: 800;
     text-transform: uppercase;
     color: var(--color-labels);
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    letter-spacing: 1.5px;
-    z-index: 10;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+    /* Rimosso absolute per massima compatibilità */
 }
 
 /* Left Column Specifics */
