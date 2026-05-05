@@ -16,7 +16,8 @@ document.addEventListener('DOMContentLoaded', () => {
         HDG: { label: 'HDG', unit: '°', format: (v) => Math.round(v).toString().padStart(3, '0') },
         DEPTH: { label: 'DEPTH', unit: 'm', format: (v) => v.toFixed(1) },
         STW: { label: 'STW', unit: 'kn', format: (v) => v.toFixed(1) },
-        TEMP: { label: 'TEMP', unit: '°C', format: (v) => v.toFixed(1) }
+        TEMP: { label: 'TEMP', unit: '°C', format: (v) => v.toFixed(1) },
+        MAP: { label: 'MAP', unit: '', format: (v) => '' }
     };
 
     // Initialize Gauges
@@ -33,7 +34,6 @@ document.addEventListener('DOMContentLoaded', () => {
         leftCol: document.getElementById('left-col'),
         rightCol: document.getElementById('right-col'),
         tagsConfigBody: document.getElementById('tags-config-body'),
-        // Fixed elements in center
         awsVal: document.getElementById('aws-val'),
         hdgNum: document.getElementById('hdg-num'),
         twsCenter: document.getElementById('tws'),
@@ -58,21 +58,27 @@ document.addEventListener('DOMContentLoaded', () => {
         depth: 4.5,
         stw: 6.0,
         temp: 18.5,
-        battery: 13.2
+        battery: 13.2,
+        lat: 44.4949, // Bologna (Simulated start)
+        lon: 11.3426
     };
+
+    // Map instances
+    let mapInstance = null;
+    let boatMarker = null;
 
     // TAG CONFIGURATION
     let tagConfig = JSON.parse(localStorage.getItem('tagConfig')) || [
         { id: 'COG', col: 'left', pos: 1 },
         { id: 'SOG', col: 'left', pos: 2 },
-        { id: 'AWS', col: 'left', pos: 3 },
-        { id: 'AWA', col: 'left', pos: 4 },
-        { id: 'TWS', col: 'left', pos: 5 },
-        { id: 'TWA', col: 'left', pos: 6 },
-        { id: 'CTS', col: 'right', pos: 1 },
-        { id: 'DTG', col: 'right', pos: 2 },
-        { id: 'WMG', col: 'right', pos: 3 },
-        { id: 'ETA', col: 'right', pos: 4 }
+        { id: 'MAP', col: 'left', pos: 3 },
+        { id: 'AWS', col: 'left', pos: 4 },
+        { id: 'AWA', col: 'left', pos: 5 },
+        { id: 'TWS', col: 'right', pos: 1 },
+        { id: 'TWA', col: 'right', pos: 2 },
+        { id: 'CTS', col: 'right', pos: 3 },
+        { id: 'DTG', col: 'right', pos: 4 },
+        { id: 'ETA', col: 'right', pos: 5 }
     ];
 
     function saveTagConfig() {
@@ -82,6 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderSidebars() {
+        // Cleanup existing map if any
+        if (mapInstance) {
+            mapInstance.remove();
+            mapInstance = null;
+            boatMarker = null;
+        }
+
         elements.leftCol.innerHTML = '';
         elements.rightCol.innerHTML = '';
 
@@ -90,25 +103,65 @@ document.addEventListener('DOMContentLoaded', () => {
 
         leftTags.forEach(tag => elements.leftCol.appendChild(createWidget(tag.id)));
         rightTags.forEach(tag => elements.rightCol.appendChild(createWidget(tag.id)));
+
+        // Init map if it was added
+        const mapContainer = document.getElementById('map-canvas');
+        if (mapContainer) {
+            initMap();
+        }
     }
 
     function createWidget(tagId) {
         const meta = TAG_METADATA[tagId];
         const section = document.createElement('section');
         section.className = 'widget';
-        section.innerHTML = `
-            <div class="widget-label">${meta.label}</div>
-            <div class="value-row">
-                <span id="tag-val-${tagId.toLowerCase()}">--</span>
-                ${meta.unit ? `<span class="unit">${meta.unit}</span>` : ''}
-            </div>
-        `;
+        
+        if (tagId === 'MAP') {
+            section.innerHTML = `<div id="map-canvas" class="map-container"></div>`;
+            // Map height should probably be larger if possible, but we respect the --widget-height
+        } else {
+            section.innerHTML = `
+                <div class="widget-label">${meta.label}</div>
+                <div class="value-row">
+                    <span id="tag-val-${tagId.toLowerCase()}">--</span>
+                    ${meta.unit ? `<span class="unit">${meta.unit}</span>` : ''}
+                </div>
+            `;
+        }
         return section;
+    }
+
+    function initMap() {
+        if (!L) return;
+        mapInstance = L.map('map-canvas', {
+            zoomControl: false,
+            attributionControl: false,
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            touchZoom: false
+        }).setView([state.lat, state.lon], 11);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(mapInstance);
+
+        boatMarker = L.circleMarker([state.lat, state.lon], {
+            radius: 6,
+            color: '#fff',
+            weight: 2,
+            fillColor: 'var(--accent-cyan)',
+            fillOpacity: 1
+        }).addTo(mapInstance);
     }
 
     function renderTagSettings() {
         elements.tagsConfigBody.innerHTML = '';
-        Object.keys(TAG_METADATA).forEach(tagId => {
+        const sortedTags = Object.keys(TAG_METADATA).sort((a, b) => {
+            if (a === 'MAP') return -1;
+            if (b === 'MAP') return 1;
+            return a.localeCompare(b);
+        });
+
+        sortedTags.forEach(tagId => {
             const config = tagConfig.find(t => t.id === tagId) || { id: tagId, col: 'none', pos: 99 };
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -127,7 +180,6 @@ document.addEventListener('DOMContentLoaded', () => {
             elements.tagsConfigBody.appendChild(tr);
         });
 
-        // Add event listeners
         document.querySelectorAll('.tag-col-select').forEach(select => {
             select.addEventListener('change', (e) => {
                 const id = e.target.dataset.tag;
@@ -208,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.themeToggle.textContent = isLight ? '🌓 DARK MODE' : '🌓 LIGHT MODE';
     });
 
-    // Initial setup
     initTheme();
     renderSidebars();
     renderTagSettings();
@@ -238,6 +289,15 @@ document.addEventListener('DOMContentLoaded', () => {
         state.temp = 18.5 + Math.sin(Date.now() / 100000) * 0.5;
         state.battery = 13.2 + (Math.random() - 0.5) * 0.05;
 
+        // Move boat
+        const speedMps = (state.sog * 0.51444); // kn to m/s
+        const dist = speedMps * 1; // 1 second
+        const bearingRad = state.cog * Math.PI / 180;
+        const dy = dist * Math.cos(bearingRad);
+        const dx = dist * Math.sin(bearingRad);
+        state.lat += dy / 111320;
+        state.lon += dx / (111320 * Math.cos(state.lat * Math.PI / 180));
+
         // Normalization
         state.hdg = (state.hdg + 360) % 360;
         state.cog = (state.cog + 360) % 360;
@@ -250,7 +310,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateUI() {
         navDisplay.update(state.hdg, state.awa, state.sog, state.btw);
 
-        // Update dynamic sidebar tags
         tagConfig.forEach(conf => {
             if (conf.col === 'none') return;
             const el = document.getElementById(`tag-val-${conf.id.toLowerCase()}`);
@@ -260,7 +319,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Fixed center elements
+        if (mapInstance && boatMarker) {
+            mapInstance.panTo([state.lat, state.lon], { animate: false });
+            boatMarker.setLatLng([state.lat, state.lon]);
+        }
+
         elements.awsVal.textContent = state.aws.toFixed(1);
         elements.hdgNum.textContent = Math.round(state.hdg).toString().padStart(3, '0');
         elements.twsCenter.textContent = state.tws.toFixed(1);

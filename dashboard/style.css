@@ -24,6 +24,7 @@
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
+    --nav-display-offset: 0px;
 }
 
 :root.light-mode {
@@ -151,8 +152,16 @@ header {
 .value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--side-value-color); opacity: 0.5; font-weight: 400; line-height: 1; }
 
 /* Center Column */
-.center-col { padding: 0.5rem 1rem 1rem 1rem; position: relative; display: flex; flex-direction: column; }
-.nav-top-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.2rem; }
+.center-col { 
+    padding: 0.5rem 1rem 1rem 1rem; 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+.nav-top-info { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.2rem; flex-shrink: 0; }
 .info-item { display: flex; flex-direction: column; flex: 1; }
 .info-item:first-child { align-items: flex-start; }
 .info-item:last-child { align-items: flex-end; }
@@ -181,7 +190,15 @@ header {
     margin: 0 1rem;
 }
 
-.nav-display-container { flex: 1; display: flex; justify-content: center; align-items: center; margin-top: -1.5rem; }
+.nav-display-container { 
+    flex: 1; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    margin-top: -1.5rem; 
+    transform: translateY(var(--nav-display-offset));
+    transition: transform 0.2s ease-out;
+}
 .nav-bottom-info { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-dim); }
 
 /* Right Column */
@@ -319,6 +336,24 @@ input[type="range"]::-webkit-slider-thumb {
 .tags-config-table select:focus, .tags-config-table input:focus {
     outline: none;
     border-color: var(--accent-cyan);
+}
+
+/* Map Widget */
+.map-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+}
+
+.leaflet-control-attribution {
+    display: none !important;
+}
+
+.leaflet-bar {
+    border: none !important;
+    box-shadow: none !important;
 }
 
 @media (max-width: 1000px) {
