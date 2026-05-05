@@ -125,6 +125,50 @@ Al termine dell'installazione e dopo il riavvio richiesto:
 
 ---
 
+## 🖥️ MaMaoDash - La Dashboard Integrata
+
+MaMaoHub include una dashboard web professionale sviluppata su misura, chiamata **MaMaoDash**, progettata specificamente per la navigazione e ottimizzata per schermi di tablet e smartphone.
+
+### Screenshot
+*(Aggiungi qui i tuoi screenshot: salva le immagini nella cartella `docs/` o nella root e sostituisci questi link)*
+*   ![Dashboard Dark Mode](screenshot-dark.png)
+*   ![Dashboard Light Mode](screenshot-light.png)
+*   ![Menu Setup](screenshot-setup.png)
+
+### Caratteristiche Principali
+* **NavDisplay Centrale (Racing Style)**: Un widget visivo vettoriale fluido (SVG) che mostra in tempo reale:
+  * Prua (HDG) e Rotta (COG).
+  * Vettore del Vento Apparente (AWA/AWS) e Reale (TWA/TWS) con layline dinamiche.
+  * Vettore di Velocità (SOG) e indicatore di rotta verso il Waypoint (BTW) con arco direzionale.
+* **Integrazione Signal K**: Si collega automaticamente al server Signal K sulla porta `3000` via WebSocket per ricevere telemetria in tempo reale dalla strumentazione NMEA 0183 di bordo.
+* **Simulatore Integrato**: Perfetto per testare l'interfaccia a casa o su GitHub Pages. Genera dati nautici e derive realistiche senza bisogno di hardware connesso.
+* **Layout Totalmente Flessibile**: Scegli quali dati (COG, SOG, AWS, DTG, ETA, ecc.) mostrare nella colonna destra o sinistra, definendone l'ordine di apparizione.
+* **Colori e Temi**: Passaggio istantaneo tra **Dark Mode** (ideale per la navigazione notturna) e **Light Mode**. I colori di layline, vettori vento, barca ed etichette sono modificabili a piacimento.
+
+### Installazione e Avvio
+Se hai seguito la *Guida Passo-Passo all'Installazione* vista sopra, la dashboard è già pronta sul tuo Raspberry Pi. 
+Basta aprire un browser collegato al Wi-Fi della barca su: `http://mamaohub.local:8080` (oppure `http://192.168.4.1:8080` se in modalità hotspot).
+
+**Per Sviluppo e Test Locale (PC / Mac):**
+1. Clona il repository: `git clone https://github.com/PZero/MamaoHub.git`
+2. Entra nella cartella: `cd MamaoHub`
+3. Installa le dipendenze base: `npm install`
+4. Avvia il server Node.js: `npm start`
+5. Apri il browser su: `http://localhost:8080`
+
+### ⚙️ Menu SETUP e Persistenza Impostazioni
+Cliccando sul tasto **SETUP** (in alto a destra), si apre un pannello laterale da cui puoi configurare:
+*   **Colori Globali**: Sfondo e testo base.
+*   **Bande Laterali**: Dimensione del testo e altezza dei blocchi.
+*   **Configurazione TAG**: Scegli la colonna (Left/Right) e la posizione di ogni valore NMEA.
+*   **NavDisplay**: Scala del widget centrale (zoom) e personalizzazione dei colori vettoriali.
+
+> **Importante: Dove vengono salvate le impostazioni?**
+> * **Su GitHub Pages (Senza server)**: Se apri il progetto direttamente da Git, le impostazioni vengono salvate localmente nel browser (`localStorage`). Non verranno condivise con altre schede in Incognito o altri browser.
+> * **Su Raspberry Pi (Produzione)**: Il server integrato salva le preferenze nel file `dashboard/settings.json`. In questo modo, **qualsiasi browser o tablet** che si collegherà alla rete della barca visualizzerà lo stesso identico layout e gli stessi colori.
+
+---
+
 ## Funzionalità Chiave
 *   **Gestione Alimentazione**: Shutdown automatico in assenza di alimentazione esterna per proteggere il file system. Auto-boot al ritorno della corrente.
 *   **Standard Industriale**: Utilizzo di Signal K come motore di elaborazione dati per massima flessibilità.
