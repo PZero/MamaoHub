@@ -1,0 +1,14 @@
+[Unit]
+Description=MaMaoHub Dashboard Server
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+WorkingDirectory=/home/pi/MaMaoHub
+ExecStart=/usr/bin/node dashboard/server.js
+Restart=on-failure
+Environment=PORT=8080
+
+[Install]
+WantedBy=multi-user.target
