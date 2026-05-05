@@ -49,28 +49,71 @@ document.addEventListener('DOMContentLoaded', () => {
     const navDisplay = new NavDisplay('nav-display-box');
     let mapInstance = null;
     let boatMarker = null;
-    let tagConfig = [];
+    let tagConfig = getDefaultConfig(); // Default values
 
-    // SETTINGS SYNC
+    // --- 1. ATTACH UI LISTENERS IMMEDIATELY ---
+    if (elements.settingsToggle && elements.settingsPanel) {
+        elements.settingsToggle.addEventListener('click', () => {
+            console.log('Opening settings panel');
+            elements.settingsPanel.classList.add('open');
+        });
+    }
+
+    if (elements.settingsClose && elements.settingsPanel) {
+        elements.settingsClose.addEventListener('click', () => {
+            elements.settingsPanel.classList.remove('open');
+        });
+    }
+
+    if (elements.themeToggle) {
+        elements.themeToggle.addEventListener('click', () => {
+            const isLight = document.documentElement.classList.toggle('light-mode');
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            elements.themeToggle.textContent = isLight ? '🌓 DARK MODE' : '🌓 LIGHT MODE';
+            saveSettings();
+        });
+    }
+
+    if (elements.resetBtn) {
+        elements.resetBtn.addEventListener('click', () => {
+            if (confirm('Ripristinare tutte le impostazioni predefinite?')) {
+                localStorage.clear();
+                location.reload();
+            }
+        });
+    }
+
+    // --- 2. SETTINGS SYNC ---
     async function loadSettings() {
+        console.log('Loading settings...');
         try {
             const response = await fetch('/api/settings');
-            const serverSettings = await response.json();
-            if (serverSettings.tagConfig) {
-                tagConfig = serverSettings.tagConfig;
-                localStorage.setItem('tagConfig', JSON.stringify(tagConfig));
+            if (response.ok) {
+                const serverSettings = await response.json();
+                if (serverSettings.tagConfig) {
+                    tagConfig = serverSettings.tagConfig;
+                    localStorage.setItem('tagConfig', JSON.stringify(tagConfig));
+                }
+                if (serverSettings.customColors) {
+                    localStorage.setItem('customColors', JSON.stringify(serverSettings.customColors));
+                }
+                state.mode = serverSettings.mode || 'sim';
+                if (elements.dataModeSelect) elements.dataModeSelect.value = state.mode;
+                console.log('Settings loaded from server');
             } else {
-                tagConfig = JSON.parse(localStorage.getItem('tagConfig')) || getDefaultConfig();
+                throw new Error('Server response not OK');
             }
-            if (serverSettings.customColors) {
-                localStorage.setItem('customColors', JSON.stringify(serverSettings.customColors));
-            }
-            state.mode = serverSettings.mode || 'sim';
-            elements.dataModeSelect.value = state.mode;
         } catch (e) {
-            console.log('Backend not available, using local storage');
-            tagConfig = JSON.parse(localStorage.getItem('tagConfig')) || getDefaultConfig();
+            console.log('Backend not available or error, using local storage');
+            try {
+                const local = localStorage.getItem('tagConfig');
+                if (local) tagConfig = JSON.parse(local);
+            } catch (err) { console.error('Local storage corrupted', err); }
         }
+        
+        // Ensure tagConfig is always an array
+        if (!Array.isArray(tagConfig)) tagConfig = getDefaultConfig();
+        
         initTheme();
         renderSidebars();
         renderTagSettings();
@@ -201,18 +244,6 @@ document.addEventListener('DOMContentLoaded', () => {
         elements.modeLabel.textContent = state.mode === 'sim' ? 'SIMULATORE' : 'DATI REALI';
         elements.modeLabel.parentElement.parentElement.classList.toggle('sim-mode', state.mode === 'sim');
     }
-
-    elements.resetBtn.addEventListener('click', () => {
-        localStorage.clear();
-        location.reload();
-    });
-
-    elements.themeToggle.addEventListener('click', () => {
-        const isLight = document.documentElement.classList.toggle('light-mode');
-        localStorage.setItem('theme', isLight ? 'light' : 'dark');
-        elements.themeToggle.textContent = isLight ? '🌓 DARK MODE' : '🌓 LIGHT MODE';
-        saveSettings();
-    });
 
     // SIMULATION & DATA
     function simulate() {
