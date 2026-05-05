@@ -80,3 +80,36 @@ class NavDisplay {
         this.windIndicator.style.transformOrigin = '100px 100px';
     }
 }
+
+class AnalogGauge {
+    constructor(containerId, label, min, max, unit) {
+        this.container = document.getElementById(containerId);
+        this.label = label;
+        this.min = min;
+        this.max = max;
+        this.unit = unit;
+        this.init();
+    }
+
+    init() {
+        this.container.innerHTML = `
+            <svg viewBox="0 0 200 200">
+                <path d="M40 150 A 75 75 0 1 1 160 150" fill="none" stroke="var(--surface-border)" stroke-width="15" stroke-linecap="round" />
+                <path id="gauge-fill" d="M40 150 A 75 75 0 1 1 160 150" fill="none" stroke="var(--accent-yellow)" stroke-width="15" stroke-linecap="round" stroke-dasharray="0 1000" />
+                <text x="100" y="80" text-anchor="middle" fill="var(--text-dim)" font-size="12">${this.label}</text>
+                <text x="100" y="110" text-anchor="middle" fill="var(--text-main)" font-size="10">${this.unit}</text>
+                <text x="100" y="150" id="gauge-val" text-anchor="middle" fill="var(--accent-yellow)" font-weight="bold" font-size="28">0.0</text>
+            </svg>
+        `;
+        this.fill = this.container.querySelector('#gauge-fill');
+        this.valText = this.container.querySelector('#gauge-val');
+        this.totalLength = this.fill.getTotalLength();
+    }
+
+    update(val) {
+        const percent = (val - this.min) / (this.max - this.min);
+        const draw = percent * this.totalLength;
+        this.fill.setAttribute('stroke-dasharray', `${draw} ${this.totalLength}`);
+        this.valText.textContent = val.toFixed(1);
+    }
+}

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MaMaoDash | Dashboard Navigazione</title>
+    <title>MaMaoDash | Dashboard Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -24,55 +24,69 @@
         </div>
     </header>
 
-    <main class="dashboard-grid">
-        <!-- Widget Unificato (Prua + Vento) -->
-        <section class="widget nav-main">
-            <div class="widget-label">Navigazione (HDG / AWA)</div>
-            <div class="gauge-container" id="nav-display-box">
-                <!-- SVG caricato via JS -->
-            </div>
-            <div class="nav-data-overlay">
-                <div class="data-box">
-                    <span class="label">HDG</span>
-                    <div class="value-row">
-                        <span id="heading">000</span>°
-                    </div>
+    <main class="dashboard-layout">
+        <!-- Colonna Sinistra -->
+        <div class="side-col left">
+            <section class="widget depth-widget">
+                <div class="widget-label">Depth</div>
+                <div class="value-row large blue">
+                    <span id="depth">10.8</span><span class="unit">m</span>
                 </div>
-                <div class="data-box">
-                    <span class="label">AWS</span>
-                    <div class="value-row">
-                        <span id="wind-speed">0.0</span><span class="unit">kn</span>
-                    </div>
+            </section>
+            <section class="widget stw-widget">
+                <div class="widget-label">STW</div>
+                <div class="value-row large">
+                    <span id="sog">6.1</span><span class="unit">knots</span>
+                </div>
+                <div class="min-max">Min: 5.2 Max: 6.1</div>
+            </section>
+            <section class="widget pos-widget">
+                <div class="widget-label">Position</div>
+                <div class="coords" id="position">
+                    44° 24.89' N<br>
+                    8° 54.77' E
+                </div>
+            </section>
+        </div>
+
+        <!-- Colonna Centrale -->
+        <div class="center-col">
+            <div class="nav-top-info">
+                <div class="info-item">
+                    <span class="label orange">AWS</span>
+                    <span class="val orange"><span id="aws-val">12.4</span> <small>knots</small></span>
+                </div>
+                <div class="hdg-box">
+                    <span id="hdg-num">179</span>°
+                </div>
+                <div class="info-item">
+                    <span class="label yellow">TWS</span>
+                    <span class="val yellow"><span id="tws">0.0</span> <small>knots</small></span>
                 </div>
             </div>
-        </section>
-
-        <!-- Velocità (SOG) -->
-        <section class="widget">
-            <div class="widget-label">Velocità (SOG)</div>
-            <div class="widget-value" id="sog">0.0<span class="widget-unit">kn</span></div>
-        </section>
-
-        <!-- Profondità -->
-        <section class="widget">
-            <div class="widget-label">Profondità (DBT)</div>
-            <div class="widget-value" id="depth" style="color: var(--accent-cyan)">--.-<span class="widget-unit">m</span></div>
-        </section>
-
-        <!-- Waypoint / Info -->
-        <section class="widget">
-            <div class="widget-label">Vento Reale (TWS)</div>
-            <div class="widget-value" id="tws">0.0<span class="widget-unit">kn</span></div>
-        </section>
-
-        <!-- Tilt / Pitch -->
-        <section class="widget">
-            <div class="widget-label">Posizione</div>
-            <div class="widget-value" id="position" style="font-size: clamp(1rem, 4vw, 1.3rem); flex-direction: column; align-items: center;">
-                <div>44° 24' 12" N</div>
-                <div>008° 55' 34" E</div>
+            <div class="nav-display-container" id="nav-display-box">
+                <!-- NavDisplay SVG -->
             </div>
-        </section>
+            <div class="nav-bottom-info">
+                <span>House Bank</span>
+                <span id="battery">--.-V</span>
+            </div>
+        </div>
+
+        <!-- Colonna Destra -->
+        <div class="side-col right">
+            <section class="widget sog-gauge-widget">
+                <div class="gauge-container" id="sog-gauge-box">
+                    <!-- Analog SOG Gauge -->
+                </div>
+            </section>
+            <section class="widget graph-widget">
+                <div class="widget-label orange" id="graph-label">12.4 knots</div>
+                <div class="graph-placeholder">
+                    <!-- Graph Canvas or SVG -->
+                </div>
+            </section>
+        </div>
     </main>
 
     <!-- Settings Panel -->
@@ -83,7 +97,7 @@
         </div>
         <div class="settings-content">
             <div class="color-group">
-                <label>Sfondo (Background)</label>
+                <label>Sfondo</label>
                 <input type="color" data-var="--bg-color" id="color-bg">
             </div>
             <div class="color-group">
