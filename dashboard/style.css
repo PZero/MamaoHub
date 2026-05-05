@@ -18,7 +18,8 @@
     --side-label-size: 0.8rem;
     --side-value-color: var(--text-main);
     --side-value-size: 3rem;
-    --side-widget-height: 15vh;
+    --left-widget-height: 15vh;
+    --right-widget-height: 15vh;
     
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
@@ -97,13 +98,13 @@ header {
 }
 
 .side-col.left {
-    display: grid;
-    grid-template-rows: repeat(6, var(--side-widget-height));
+    display: flex;
+    flex-direction: column;
 }
 
 .side-col.right {
-    display: grid;
-    grid-template-rows: repeat(4, var(--side-widget-height));
+    display: flex;
+    flex-direction: column;
 }
 
 .widget {
@@ -116,7 +117,11 @@ header {
     position: relative;
     overflow: hidden;
     min-height: 0;
+    flex-shrink: 0;
 }
+
+.side-col.left .widget { height: var(--left-widget-height); }
+.side-col.right .widget { height: var(--right-widget-height); }
 
 .widget:last-child {
     border-bottom: none;
@@ -188,8 +193,8 @@ header {
 .settings-panel {
     position: fixed;
     top: 5rem;
-    right: -320px;
-    width: 300px;
+    right: -420px;
+    width: 400px;
     background: var(--bg-color);
     border: 1px solid var(--surface-border);
     border-radius: 1.5rem;
@@ -262,6 +267,58 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
     font-size: 0.7rem;
     font-weight: bold;
+}
+
+/* Tags Config Table */
+.tags-config-container {
+    margin-top: 1rem;
+    max-height: 400px;
+    overflow-y: auto;
+    border: 1px solid var(--surface-border);
+    border-radius: 0.5rem;
+    background: rgba(0,0,0,0.2);
+}
+
+.tags-config-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.7rem;
+}
+
+.tags-config-table th {
+    position: sticky;
+    top: 0;
+    background: var(--bg-color);
+    z-index: 10;
+    padding: 0.5rem;
+    text-align: left;
+    border-bottom: 2px solid var(--surface-border);
+    color: var(--accent-cyan);
+    text-transform: uppercase;
+}
+
+.tags-config-table td {
+    padding: 0.4rem 0.5rem;
+    border-bottom: 1px solid var(--surface-border);
+}
+
+.tags-config-table tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.tags-config-table select, .tags-config-table input[type="number"] {
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    color: var(--text-main);
+    border-radius: 4px;
+    padding: 2px 4px;
+    width: 100%;
+    font-family: var(--font-mono);
+}
+
+.tags-config-table select:focus, .tags-config-table input:focus {
+    outline: none;
+    border-color: var(--accent-cyan);
 }
 
 @media (max-width: 1000px) {

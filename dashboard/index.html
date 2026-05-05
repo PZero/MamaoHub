@@ -26,43 +26,8 @@
 
     <main class="dashboard-layout">
         <!-- Colonna Sinistra -->
-        <div class="side-col left">
-            <section class="widget">
-                <div class="widget-label">COG</div>
-                <div class="value-row">
-                    <span id="cog">182</span><span class="unit">°</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">SOG</div>
-                <div class="value-row">
-                    <span id="sog">6.2</span><span class="unit">kn</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">AWS</div>
-                <div class="value-row">
-                    <span id="aws">12.4</span><span class="unit">kn</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">AWA</div>
-                <div class="value-row">
-                    <span id="awa">32</span><span class="unit">°</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">TWS</div>
-                <div class="value-row">
-                    <span id="tws-side">10.1</span><span class="unit">kn</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">TWA</div>
-                <div class="value-row">
-                    <span id="twa">45</span><span class="unit">°</span>
-                </div>
-            </section>
+        <div class="side-col left" id="left-col">
+            <!-- Widgets will be injected here -->
         </div>
 
         <!-- Colonna Centrale -->
@@ -96,31 +61,8 @@
         </div>
 
         <!-- Colonna Destra -->
-        <div class="side-col right">
-            <section class="widget">
-                <div class="widget-label">CTS</div>
-                <div class="value-row">
-                    <span id="cts">185</span><span class="unit">°</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">DTG</div>
-                <div class="value-row">
-                    <span id="dtg">4.2</span><span class="unit">nm</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">WMG</div>
-                <div class="value-row">
-                    <span id="wmg">5.8</span><span class="unit">kn</span>
-                </div>
-            </section>
-            <section class="widget">
-                <div class="widget-label">ETA</div>
-                <div class="value-row">
-                    <span id="eta">14:25</span>
-                </div>
-            </section>
+        <div class="side-col right" id="right-col">
+            <!-- Widgets will be injected here -->
         </div>
     </main>
 
@@ -165,8 +107,31 @@
                     <input type="range" min="1" max="5" step="0.1" value="3" data-var="--side-value-size" data-unit="rem">
                 </div>
                 <div class="color-group">
-                    <label>Altezza Widget</label>
-                    <input type="range" min="8" max="25" step="0.5" value="15" data-var="--side-widget-height" data-unit="vh">
+                    <label>Altezza Left</label>
+                    <input type="range" min="5" max="30" step="0.5" value="15" data-var="--left-widget-height" data-unit="vh">
+                </div>
+                <div class="color-group">
+                    <label>Altezza Right</label>
+                    <input type="range" min="5" max="30" step="0.5" value="15" data-var="--right-widget-height" data-unit="vh">
+                </div>
+            </div>
+
+            <!-- Sezione Configurazione TAG -->
+            <div class="settings-section">
+                <h4>Configurazione TAG</h4>
+                <div class="tags-config-container">
+                    <table class="tags-config-table" id="tags-config-table">
+                        <thead>
+                            <tr>
+                                <th>Tag</th>
+                                <th>Colonna</th>
+                                <th>Pos.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tags-config-body">
+                            <!-- Dynamic rows here -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
