@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         settingsPanel: document.getElementById('settings-panel'),
         settingsClose: document.getElementById('settings-close'),
         resetBtn: document.getElementById('reset-colors'),
-        colorInputs: document.querySelectorAll('input[type="color"]')
+        settingsInputs: document.querySelectorAll('[data-var]')
     };
 
     // Theme & Color Logic
@@ -34,19 +34,30 @@ document.addEventListener('DOMContentLoaded', () => {
         const customColors = JSON.parse(localStorage.getItem('customColors') || '{}');
         Object.entries(customColors).forEach(([varName, value]) => {
             document.documentElement.style.setProperty(varName, value);
-            const input = document.querySelector(`input[data-var="${varName}"]`);
-            if (input) input.value = value;
+            const input = document.querySelector(`[data-var="${varName}"]`);
+            if (input) {
+                // If it's a range with a unit, we need to extract the numeric value for the input
+                const unit = input.dataset.unit;
+                if (unit && typeof value === 'string' && value.endsWith(unit)) {
+                    input.value = value.replace(unit, '');
+                } else {
+                    input.value = value;
+                }
+            }
         });
     };
 
     elements.settingsToggle.addEventListener('click', () => elements.settingsPanel.classList.add('open'));
     elements.settingsClose.addEventListener('click', () => elements.settingsPanel.classList.remove('open'));
 
-    elements.colorInputs.forEach(input => {
+    elements.settingsInputs.forEach(input => {
         input.addEventListener('input', (e) => {
             const varName = e.target.getAttribute('data-var');
-            const value = e.target.value;
+            const unit = e.target.dataset.unit || '';
+            const value = e.target.value + unit;
+            
             document.documentElement.style.setProperty(varName, value);
+            
             const customColors = JSON.parse(localStorage.getItem('customColors') || '{}');
             customColors[varName] = value;
             localStorage.setItem('customColors', JSON.stringify(customColors));

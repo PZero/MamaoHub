@@ -12,6 +12,13 @@
     --text-dim: #94a3b8;
     /* Widget Specific Colors */
     --color-labels: #00f2ff; /* Ciano acceso di default */
+    
+    /* Side Columns Styling Variables */
+    --side-label-color: var(--color-labels);
+    --side-label-size: 0.8rem;
+    --side-value-color: var(--text-main);
+    --side-value-size: 3rem;
+    
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
     --transition: all 0.3s ease;
@@ -98,24 +105,24 @@ header {
 }
 
 .widget-label {
-    font-size: 0.8rem;
+    font-size: var(--side-label-size);
     font-weight: 800;
     text-transform: uppercase;
-    color: var(--color-labels);
+    color: var(--side-label-color);
     letter-spacing: 2px;
     margin-bottom: 0.2rem;
     opacity: 0.8;
 }
 
 .value-row { 
-    font-size: clamp(2rem, 5vh, 3.5rem); 
+    font-size: var(--side-value-size); 
     font-family: var(--font-mono); 
     font-weight: 700; 
     white-space: nowrap; 
     line-height: 1; 
-    color: var(--text-main);
+    color: var(--side-value-color);
 }
-.value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--text-dim); font-weight: 400; }
+.value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--side-value-color); opacity: 0.5; font-weight: 400; }
 
 /* Center Column */
 .center-col { padding: 1rem; position: relative; }
@@ -199,12 +206,28 @@ header {
     color: var(--text-dim);
 }
 
-input[type="color"] {
-    border: none;
-    width: 30px;
-    height: 30px;
+input[type="color"], input[type="range"] {
     cursor: pointer;
     background: none;
+}
+
+input[type="range"] {
+    -webkit-appearance: none;
+    width: 100px;
+    height: 4px;
+    background: var(--surface-border);
+    border-radius: 2px;
+    outline: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 15px;
+    height: 15px;
+    background: var(--accent-cyan);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
 }
 
 .reset-btn {
