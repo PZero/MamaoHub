@@ -116,6 +116,16 @@ class NavDisplay {
     update(hdg, awa, sog, btw) {
         this.compassRing.style.transform = `rotate(${-hdg}deg)`;
         this.compassRing.style.transformOrigin = '100px 100px';
+
+        // Counter-rotate text labels to keep them upright
+        const labels = this.compassRing.querySelectorAll('text');
+        labels.forEach(label => {
+            const x = label.getAttribute('x');
+            const y = label.getAttribute('y');
+            label.style.transform = `rotate(${hdg}deg)`;
+            label.style.transformOrigin = `${x}px ${y}px`;
+        });
+
         this.windIndicator.style.transform = `rotate(${awa}deg)`;
         this.windIndicator.style.transformOrigin = '100px 100px';
         this.laylineZones.style.transform = `rotate(${awa}deg)`;
