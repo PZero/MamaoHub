@@ -18,6 +18,7 @@
     --side-label-size: 0.8rem;
     --side-value-color: var(--text-main);
     --side-value-size: 3rem;
+    --side-widget-height: 15vh;
     
     --font-ui: 'Inter', sans-serif;
     --font-mono: 'Roboto Mono', monospace;
@@ -97,14 +98,12 @@ header {
 
 .side-col.left {
     display: grid;
-    grid-template-rows: repeat(6, 16.66%);
-    overflow: hidden;
+    grid-template-rows: repeat(6, var(--side-widget-height));
 }
 
 .side-col.right {
     display: grid;
-    grid-template-rows: repeat(4, 25%);
-    overflow: hidden;
+    grid-template-rows: repeat(4, var(--side-widget-height));
 }
 
 .widget {
