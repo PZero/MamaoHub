@@ -127,12 +127,13 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0.5rem;
 }
 
 svg {
     width: 100%;
     height: 100%;
-    max-width: 250px;
+    max-width: 600px; /* Aumentato per massimizzare la visibilità */
 }
 
 .gauge-ring {
