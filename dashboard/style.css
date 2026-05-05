@@ -112,7 +112,7 @@ header {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0.2rem 1rem;
+    padding: 0 1rem;
     border-bottom: 1px solid var(--surface-border);
     position: relative;
     overflow: hidden;
@@ -129,8 +129,9 @@ header {
     text-transform: uppercase;
     color: var(--side-label-color);
     letter-spacing: 2px;
-    margin-bottom: 0.2rem;
+    margin-bottom: 0;
     opacity: 0.8;
+    line-height: 1;
 }
 
 .value-row { 
@@ -140,8 +141,10 @@ header {
     white-space: nowrap; 
     line-height: 1; 
     color: var(--side-value-color);
+    display: flex;
+    align-items: baseline;
 }
-.value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--side-value-color); opacity: 0.5; font-weight: 400; }
+.value-row .unit { font-size: 1rem; margin-left: 4px; color: var(--side-value-color); opacity: 0.5; font-weight: 400; line-height: 1; }
 
 /* Center Column */
 .center-col { padding: 1rem; position: relative; }
