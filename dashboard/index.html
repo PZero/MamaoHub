@@ -22,22 +22,22 @@
     </header>
 
     <main class="dashboard-grid">
-        <!-- Vento -->
-        <section class="widget wind">
-            <div class="widget-label">Vento (AWA/AWS)</div>
-            <div class="gauge-container" id="wind-gauge-box">
+        <!-- Widget Unificato (Prua + Vento) -->
+        <section class="widget nav-main">
+            <div class="widget-label">Navigazione (HDG / AWA)</div>
+            <div class="gauge-container" id="nav-display-box">
                 <!-- SVG caricato via JS -->
             </div>
-            <div class="widget-value" id="wind-speed">0.0<span class="widget-unit">kn</span></div>
-        </section>
-
-        <!-- Bussola -->
-        <section class="widget compass">
-            <div class="widget-label">Prua (HDG)</div>
-            <div class="gauge-container" id="compass-gauge-box">
-                <!-- SVG caricato via JS -->
+            <div class="nav-data-overlay">
+                <div class="data-box">
+                    <span class="label">HDG</span>
+                    <span id="heading">000</span>°
+                </div>
+                <div class="data-box">
+                    <span class="label">AWS</span>
+                    <span id="wind-speed">0.0</span><span class="unit">kn</span>
+                </div>
             </div>
-            <div class="widget-value" id="heading">000<span class="widget-unit">°</span></div>
         </section>
 
         <!-- Velocità (SOG) -->

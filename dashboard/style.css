@@ -150,8 +150,45 @@ svg {
 }
 
 /* Specific Widgets */
-.widget.wind { grid-column: span 1; grid-row: span 2; }
-.widget.compass { grid-column: span 1; grid-row: span 2; }
+.widget.nav-main { 
+    grid-column: span 2; 
+    grid-row: span 2; 
+    background: radial-gradient(circle at center, rgba(0, 242, 255, 0.05) 0%, transparent 70%);
+}
+
+.nav-data-overlay {
+    position: absolute;
+    bottom: 1.5rem;
+    display: flex;
+    gap: 2rem;
+    background: rgba(0, 0, 0, 0.4);
+    padding: 0.75rem 1.5rem;
+    border-radius: 1rem;
+    backdrop-filter: blur(5px);
+    border: 1px solid var(--surface-border);
+}
+
+.data-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.data-box .label {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+}
+
+.data-box span:not(.label) {
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.data-box .unit {
+    font-size: 0.8rem;
+    margin-left: 2px;
+}
 
 @media (max-width: 900px) {
     .dashboard-grid {
@@ -159,11 +196,12 @@ svg {
         grid-template-rows: auto;
         overflow-y: auto;
     }
-    .widget.wind, .widget.compass { grid-column: span 1; grid-row: span 1; }
+    .widget.nav-main { grid-column: span 2; grid-row: span 1; min-height: 400px; }
 }
 
 @media (max-width: 600px) {
     .dashboard-grid {
         grid-template-columns: 1fr;
     }
+    .widget.nav-main { grid-column: span 1; }
 }
