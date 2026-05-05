@@ -1,0 +1,169 @@
+:root {
+    --bg-color: #0a0e14;
+    --surface-color: rgba(255, 255, 255, 0.05);
+    --surface-border: rgba(255, 255, 255, 0.1);
+    --accent-cyan: #00f2ff;
+    --accent-orange: #ff9d00;
+    --accent-green: #39ff14;
+    --text-main: #e0e6ed;
+    --text-dim: #94a3b8;
+    --font-ui: 'Inter', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-ui);
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+header {
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--surface-border);
+    background: rgba(10, 14, 20, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 100;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+    color: var(--accent-cyan);
+}
+
+.status-bar {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent-green);
+    box-shadow: 0 0 8px var(--accent-green);
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    gap: 1rem;
+    padding: 1rem;
+}
+
+/* Widget Styles */
+.widget {
+    background: var(--surface-color);
+    border: 1px solid var(--surface-border);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    backdrop-filter: blur(5px);
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.widget:hover {
+    border-color: rgba(0, 242, 255, 0.3);
+}
+
+.widget-label {
+    position: absolute;
+    top: 1rem;
+    left: 1.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+}
+
+.widget-value {
+    font-family: var(--font-mono);
+    font-size: 3.5rem;
+    font-weight: 500;
+    line-height: 1;
+}
+
+.widget-unit {
+    font-size: 1rem;
+    color: var(--text-dim);
+    margin-left: 0.25rem;
+}
+
+/* Gauges */
+.gauge-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg {
+    width: 100%;
+    height: 100%;
+    max-width: 250px;
+}
+
+.gauge-ring {
+    fill: none;
+    stroke: var(--surface-border);
+    stroke-width: 8;
+}
+
+.gauge-progress {
+    fill: none;
+    stroke: var(--accent-cyan);
+    stroke-width: 8;
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.5s ease;
+}
+
+/* Specific Widgets */
+.widget.wind { grid-column: span 1; grid-row: span 2; }
+.widget.compass { grid-column: span 1; grid-row: span 2; }
+
+@media (max-width: 900px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        overflow-y: auto;
+    }
+    .widget.wind, .widget.compass { grid-column: span 1; grid-row: span 1; }
+}
+
+@media (max-width: 600px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
